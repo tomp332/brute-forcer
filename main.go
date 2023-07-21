@@ -12,6 +12,7 @@ func main() {
 	src.LoadSettings()
 	src.InitDB()
 	e := echo.New()
+	e.Use(api.LogRequest)
 	e.GET("/", api.Home)
 	e.POST("/slaves", api.AddSlaves)
 	e.GET("/slaves", api.GetSlaves)
