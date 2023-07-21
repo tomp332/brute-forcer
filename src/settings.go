@@ -6,14 +6,16 @@ import (
 	"log"
 )
 
+var GlobalSettings *MainSettings
+
 type MainSettings struct {
-	DatabaseConnectionUrl string `env:"DB_URL,required"`
-	ServerPort            int16  `env:"SERVER_PORT" envDefault:"8080"`
-	ServerHost            string `env:"SERVER_HOST" envDefault:"localhost"`
-	Environment           string `env:"ENVIRONMENT" envDefault:"dev"`
+	DBFilePath  string `env:"DB_FILE_PATH,required"`
+	ServerPort  int16  `env:"SERVER_PORT" envDefault:"8080"`
+	ServerHost  string `env:"SERVER_HOST" envDefault:"localhost"`
+	Environment string `env:"ENVIRONMENT" envDefault:"dev"`
 }
 
-func LoadSettings() MainSettings {
+func LoadSettings() {
 	// Loading the environment variables from '.env' file.
 	err := godotenv.Load()
 	if err != nil {
@@ -26,5 +28,5 @@ func LoadSettings() MainSettings {
 		log.Fatalf("unable to parse ennvironment variables: %e", err)
 	}
 	log.Printf("Settings loaded successfully: %+v\n", cfg)
-	return cfg
+	GlobalSettings = &cfg
 }

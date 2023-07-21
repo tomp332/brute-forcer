@@ -1,17 +1,22 @@
 package main
 
 import (
+	"fmt"
+	"github.com/labstack/echo/v4"
+	"github.com/tomp332/bruteForcer/src"
 	"github.com/tomp332/bruteForcer/src/api"
-	"net/http"
 )
-
-func setupHandlers() {
-	http.HandleFunc("/api", api.GetRoot)
-}
 
 func main() {
 	// Echo instance
-	//mainSettings := src.LoadSettings()
-	//e := echo.New()
-
+	src.LoadSettings()
+	src.InitDB()
+	e := echo.New()
+	e.GET("/", api.Home)
+	e.POST("/slaves", api.AddSlaves)
+	addr := fmt.Sprintf("%s:%d", src.GlobalSettings.ServerHost, src.GlobalSettings.ServerPort)
+	err := e.Start(addr)
+	if err != nil {
+		panic(err)
+	}
 }
