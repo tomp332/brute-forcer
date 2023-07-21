@@ -1,8 +1,6 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
-	"github.com/tomp332/bruteForcer/src"
 	"github.com/tomp332/bruteForcer/src/api"
 	"net/http"
 )
@@ -13,7 +11,7 @@ func setupHandlers() {
 
 func main() {
 	// Echo instance
-	mainSettings := src.LoadSettings()
-	e := echo.New()
+	//mainSettings := src.LoadSettings()
+	//e := echo.New()
 
 }
