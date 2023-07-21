@@ -19,3 +19,11 @@ func AddSlaves(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, newSlaves)
 }
+
+func GetSlaves(c echo.Context) error {
+	slaves, err := crud.GetSlaves()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, slaves)
+}

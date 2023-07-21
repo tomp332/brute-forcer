@@ -12,3 +12,12 @@ func AddSlaves(slaves []*models.Slave) ([]*models.Slave, error) {
 	}
 	return slaves, nil
 }
+
+func GetSlaves() ([]*models.Slave, error) {
+	var slaves []*models.Slave
+	result := src.MainDB.Find(&slaves)
+	if result.Error != nil {
+		return slaves, result.Error
+	}
+	return slaves, nil
+}

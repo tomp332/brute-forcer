@@ -14,6 +14,7 @@ func main() {
 	e := echo.New()
 	e.GET("/", api.Home)
 	e.POST("/slaves", api.AddSlaves)
+	e.GET("/slaves", api.GetSlaves)
 	addr := fmt.Sprintf("%s:%d", src.GlobalSettings.ServerHost, src.GlobalSettings.ServerPort)
 	err := e.Start(addr)
 	if err != nil {

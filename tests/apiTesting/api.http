@@ -7,8 +7,16 @@ Content-Type: application/json
 
 [
   {
-    "name": "slave1",
+    "name": "slave3",
     "ip": "localhost",
-    "port": 8080
+    "port": 8081
+  },
+  {
+    "name": "slave4",
+    "ip": "localhost",
+    "port": 8082
   }
 ]
+
+###
+GET http://{{hostname}}:{{port}}/slaves
