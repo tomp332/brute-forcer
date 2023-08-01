@@ -13,8 +13,7 @@ import (
 // @Tags slaves
 // @Accept json
 // @Produce json
-// @Param slaves body []Slave true "Slaves to add"
-// @Success 200 {array} Slave
+// @Success 200 {array} models.Slave
 // @Failure 400 {string} string "Invalid request"
 // @Failure 500 {string} string "Internal server error"
 // @Router /slaves [post]
@@ -31,15 +30,13 @@ func AddSlaves(c echo.Context) error {
 	return c.JSON(http.StatusOK, newSlaves)
 }
 
-// GetSlaves godoc (GET /slaves)
-// @Summary Get slaves
-// @Description Get all slaves from the database
-// @Tags slaves
-// @Accept json
-// @Produce json
-// @Success 200 {array} Slave
-// @Failure 500 {string} string "Internal server error"
-// @Router /slaves [get]
+// GetSlaves ... Get all slaves
+// @Summary Get all slaves
+// @Description get all users
+// @Tags Users
+// @Success 200 {JSON} model.Slave
+// @Failure 404 {object} object
+// @Router / [get]
 func GetSlaves(c echo.Context) error {
 	slaves, err := crud.GetSlaves()
 	if err != nil {

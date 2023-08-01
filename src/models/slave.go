@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Slave struct {
-	Id        int64     `json:"id"`
+	Id        int64     `gorm:"primary_key:auto_increment" json:"-"`
 	Name      string    `json:"name"`
 	Ip        string    `json:"ip"`
 	Port      int16     `json:"port"`

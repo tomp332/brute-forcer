@@ -1,8 +1,8 @@
 ###
-GET http://{{hostname}}:{{port}}
+GET http://{{hostname}}:{{port}}/api/v1
 
 ###
-POST http://{{hostname}}:{{port}}/slaves
+POST http://{{hostname}}:{{port}}/api/v1/slaves
 Content-Type: application/json
 
 [
@@ -19,4 +19,4 @@ Content-Type: application/json
 ]
 
 ###
-GET http://{{hostname}}:{{port}}/slaves
+GET http://{{hostname}}:{{port}}/api/v1/slaves

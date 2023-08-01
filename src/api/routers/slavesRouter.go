@@ -7,7 +7,10 @@ import (
 
 var SlaveRouter *echo.Group
 
-func InitSlavesRouter() {
+type SlaveRoute struct{}
+
+func (r SlaveRoute) InitRouter() error {
 	SlaveRouter.POST("", handlers.AddSlaves)
 	SlaveRouter.GET("", handlers.GetSlaves)
+	return nil
 }

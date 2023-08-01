@@ -1,0 +1,133 @@
+basePath: /api/v1
+definitions:
+  models.Health:
+    properties:
+      id:
+        type: string
+      port:
+        type: integer
+      status:
+        $ref: '#/definitions/models.ServiceStatus'
+    type: object
+  models.ServiceStatus:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    type: integer
+    x-enum-varnames:
+    - ONLINE
+    - PENDING
+    - ERROR
+    - ShuttingDown
+  models.Slave:
+    properties:
+      created_at:
+        type: string
+      ip:
+        type: string
+      name:
+        type: string
+      port:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  title: Brute Forcer API
+  version: "1.0"
+paths:
+  /:
+    get:
+      description: get all users
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: JSON
+        "404":
+          description: Not Found
+          schema:
+            type: object
+      summary: Get all slaves
+      tags:
+      - Users
+  /creds:
+    get:
+      consumes:
+      - application/json
+      description: Get credentials from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get credentials
+      tags:
+      - Creds
+    post:
+      consumes:
+      - application/json
+      description: Add credentials to the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: JSON
+        "400":
+          description: Bad Request
+          schema:
+            type: JSON
+      summary: Add credentials
+      tags:
+      - Creds
+  /health:
+    get:
+      description: API HealthCheck
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Health'
+      summary: API Health Check
+      tags:
+      - Health Check
+  /slaves:
+    post:
+      consumes:
+      - application/json
+      description: Add slaves to the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Slave'
+            type: array
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Add slaves
+      tags:
+      - slaves
+swagger: "2.0"
