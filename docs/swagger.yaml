@@ -40,37 +40,29 @@ info:
   title: Brute Forcer API
   version: "1.0"
 paths:
-  /:
-    get:
-      description: get all users
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: JSON
-        "404":
-          description: Not Found
-          schema:
-            type: object
-      summary: Get all slaves
-      tags:
-      - Users
   /creds:
     get:
-      consumes:
-      - application/json
       description: Get credentials from the database
+      parameters:
+      - description: Limit the number of results
+        in: query
+        name: limit
+        type: integer
+      - description: Page number
+        in: query
+        name: page
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
+            type: JSON
         "400":
           description: Bad Request
           schema:
-            type: string
+            type: JSON
       summary: Get credentials
       tags:
       - Creds
@@ -106,6 +98,37 @@ paths:
       tags:
       - Health Check
   /slaves:
+    get:
+      description: Get slaves from the database
+      parameters:
+      - description: Limit the number of results
+        in: query
+        name: limit
+        type: integer
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Slave'
+            type: array
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get slaves
+      tags:
+      - Slaves
     post:
       consumes:
       - application/json
@@ -129,5 +152,5 @@ paths:
             type: string
       summary: Add slaves
       tags:
-      - slaves
+      - Slaves
 swagger: "2.0"

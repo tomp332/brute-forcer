@@ -13,11 +13,8 @@ func AddCreds(creds []*models.Cred) ([]*models.Cred, error) {
 	return creds, nil
 }
 
-func GetCreds(limit int, err error) ([]*models.Cred, error) {
+func GetCreds(limit, page int) ([]*models.Cred, error) {
 	var creds []*models.Cred
-	result := src.MainDB.Find(&creds)
-	if result.Error != nil {
-		return creds, result.Error
-	}
-	return creds, nil
+	err := src.MainDB.Scopes(src.NewPaginate(limit, page).PaginatedResult).Find(&creds).Error
+	return creds, err
 }
