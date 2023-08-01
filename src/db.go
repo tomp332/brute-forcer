@@ -10,19 +10,19 @@ import (
 var MainDB *gorm.DB
 
 type Paginate struct {
-	limit int
-	page  int
+	Limit int
+	Page  int
 }
 
 func NewPaginate(limit int, page int) *Paginate {
-	return &Paginate{limit: limit, page: page}
+	return &Paginate{Limit: limit, Page: page}
 }
 
 func (p *Paginate) PaginatedResult(db *gorm.DB) *gorm.DB {
-	offset := (p.page - 1) * p.limit
+	offset := (p.Page - 1) * p.Limit
 
 	return db.Offset(offset).
-		Limit(p.limit)
+		Limit(p.Limit)
 }
 
 func InitDB() {

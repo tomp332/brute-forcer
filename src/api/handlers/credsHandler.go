@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/tomp332/bruteForcer/src"
 	"github.com/tomp332/bruteForcer/src/crud"
 	"github.com/tomp332/bruteForcer/src/models"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 // AddCreds godoc
@@ -39,15 +39,13 @@ func AddCreds(c echo.Context) error {
 // @Failure 400 {JSON} JSON Bad Request
 // @Router /creds [get]
 func GetCreds(c echo.Context) error {
-	limit := c.QueryParam("limit")
-	page := c.QueryParam("page")
-	limitInt, err := strconv.Atoi(limit)
-	pageInt, err := strconv.Atoi(page)
+	var paginateStruct *src.Paginate
+	err := c.Bind(&paginateStruct)
 	if err != nil {
-		log.Printf("Error parsing limit or page: %e", err)
+		log.Printf("Error binding paginate struct: %e", err)
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	creds, err := crud.GetCreds(limitInt, pageInt)
+	creds, err := crud.GetCreds(paginateStruct.Limit, paginateStruct.Page)
 	if err != nil {
 		log.Printf("Error getting creds: %e", err)
 		return c.JSON(http.StatusInternalServerError, err.Error())
