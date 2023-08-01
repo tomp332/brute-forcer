@@ -46,7 +46,7 @@ func AddSlaves(c echo.Context) error {
 func GetSlaves(c echo.Context) error {
 	var paginateStruct *src.Paginate
 	err := c.Bind(&paginateStruct)
-	if err != nil {
+	if err != nil || paginateStruct == nil {
 		log.Printf("Error binding paginate struct: %e", err)
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

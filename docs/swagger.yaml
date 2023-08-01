@@ -1,5 +1,18 @@
 basePath: /api/v1
 definitions:
+  models.Cred:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      password:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
   models.Health:
     properties:
       id:
@@ -8,6 +21,11 @@ definitions:
         type: integer
       status:
         $ref: '#/definitions/models.ServiceStatus'
+    type: object
+  models.ServerError:
+    properties:
+      error:
+        type: string
     type: object
   models.ServiceStatus:
     enum:
@@ -52,17 +70,21 @@ paths:
         in: query
         name: page
         type: integer
-      produces:
-      - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: JSON
+            items:
+              $ref: '#/definitions/models.Cred'
+            type: array
         "400":
           description: Bad Request
           schema:
-            type: JSON
+            $ref: '#/definitions/models.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ServerError'
       summary: Get credentials
       tags:
       - Creds
@@ -70,17 +92,21 @@ paths:
       consumes:
       - application/json
       description: Add credentials to the database
-      produces:
-      - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: JSON
+            items:
+              $ref: '#/definitions/models.Cred'
+            type: array
         "400":
           description: Bad Request
           schema:
-            type: JSON
+            $ref: '#/definitions/models.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ServerError'
       summary: Add credentials
       tags:
       - Creds

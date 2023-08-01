@@ -19,9 +19,6 @@ const docTemplate = `{
         "/creds": {
             "get": {
                 "description": "Get credentials from the database",
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "Creds"
                 ],
@@ -44,13 +41,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "JSON"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Cred"
+                            }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "JSON"
+                            "$ref": "#/definitions/models.ServerError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ServerError"
                         }
                     }
                 }
@@ -58,9 +64,6 @@ const docTemplate = `{
             "post": {
                 "description": "Add credentials to the database",
                 "consumes": [
-                    "application/json"
-                ],
-                "produces": [
                     "application/json"
                 ],
                 "tags": [
@@ -71,13 +74,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "JSON"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Cred"
+                            }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "JSON"
+                            "$ref": "#/definitions/models.ServerError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ServerError"
                         }
                     }
                 }
@@ -190,6 +202,26 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.Cred": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Health": {
             "type": "object",
             "properties": {
@@ -201,6 +233,14 @@ const docTemplate = `{
                 },
                 "status": {
                     "$ref": "#/definitions/models.ServiceStatus"
+                }
+            }
+        },
+        "models.ServerError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
                 }
             }
         },
