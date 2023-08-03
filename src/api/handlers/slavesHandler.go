@@ -28,7 +28,7 @@ func AddSlaves(c echo.Context) error {
 		return c.JSONBlob(http.StatusBadRequest,
 			utils.BadRequestError("Validation error for SlavesdModel schema", err))
 	}
-	newSlaves, err := crud.AddSlaves(slaves)
+	newSlaves, err := crud.Add(slaves)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
