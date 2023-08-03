@@ -28,7 +28,7 @@ func AddCreds(c echo.Context) error {
 		return c.JSONBlob(http.StatusBadRequest,
 			utils.BadRequestError("Validation error for CredsModel schema", err))
 	}
-	addedCreds, err := crud.AddCreds(creds)
+	addedCreds, err := crud.Add(creds)
 	if err != nil {
 		return c.JSONBlob(http.StatusInternalServerError,
 			utils.BadRequestError("Error adding new credentials to database", err))
@@ -54,7 +54,7 @@ func GetCreds(c echo.Context) error {
 		return c.JSONBlob(http.StatusBadRequest,
 			utils.BadRequestError("One or more of the parameters specified for pagination was incorrect", err))
 	}
-	creds, err := crud.GetCreds(paginationParams.Limit, paginationParams.Page)
+	creds, err := crud.Get(paginationParams.Limit, paginationParams.Page, []*models.CredsModel{})
 	if err != nil {
 		log.Printf("Error getting creds: %s", err.Error())
 		return c.JSONBlob(http.StatusInternalServerError,

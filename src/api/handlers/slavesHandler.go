@@ -5,6 +5,7 @@ import (
 	"github.com/tomp332/bruteForcer/src"
 	"github.com/tomp332/bruteForcer/src/crud"
 	"github.com/tomp332/bruteForcer/src/models"
+	"github.com/tomp332/bruteForcer/src/utils"
 	"log"
 	"net/http"
 )
@@ -22,8 +23,10 @@ import (
 func AddSlaves(c echo.Context) error {
 	var slaves []*models.SlaveModel
 	err := c.Bind(&slaves)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+	if err != nil || slaves == nil {
+		log.Printf("Error binding slaves struct")
+		return c.JSONBlob(http.StatusBadRequest,
+			utils.BadRequestError("Validation error for SlavesdModel schema", err))
 	}
 	newSlaves, err := crud.AddSlaves(slaves)
 	if err != nil {
@@ -50,7 +53,8 @@ func GetSlaves(c echo.Context) error {
 		log.Printf("Error binding paginate struct: %e", err)
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	slaves, err := crud.GetSlaves(paginateStruct.Limit, paginateStruct.Page)
+	slaves, err := crud.Get(paginateStruct.Limit, paginateStruct.Page, &models.SlaveModel{})
+	//slaves, err := crud.GetSlaves(paginateStruct.Limit, paginateStruct.Page)
 	if err != nil {
 		log.Printf("Error getting slaves: %e", err)
 		return c.JSON(http.StatusInternalServerError, err.Error())
