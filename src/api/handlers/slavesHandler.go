@@ -15,12 +15,12 @@ import (
 // @Tags Slaves
 // @Accept json
 // @Produce json
-// @Success 200 {array} models.Slave
+// @Success 200 {array} models.SlaveModel
 // @Failure 400 {string} string "Invalid request"
 // @Failure 500 {string} string "Internal server error"
 // @Router /slaves [post]
 func AddSlaves(c echo.Context) error {
-	var slaves []*models.Slave
+	var slaves []*models.SlaveModel
 	err := c.Bind(&slaves)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -39,7 +39,7 @@ func AddSlaves(c echo.Context) error {
 // @Produce json
 // @Param limit query int false "Limit the number of results"
 // @Param page query int false "Page number"
-// @Success 200 {array} models.Slave
+// @Success 200 {array} models.SlaveModel
 // @Failure 400 {string} string "Invalid request"
 // @Failure 500 {string} string "Internal server error"
 // @Router /slaves [get]

@@ -1,12 +1,22 @@
 package models
 
-import "time"
+type CredsBase struct {
+	Username    string `json:"username"`
+	Password    string `json:"password"`
+	Description string `json:"description"`
+}
 
-type Cred struct {
-	Id          int64     `gorm:"primary_key:auto_increment" json:"-"`
-	Username    string    `json:"username"`
-	Password    string    `json:"password"`
-	Description string    `json:"description"`
-	CreatedAt   time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
-	UpdatedAt   time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP"`
+type CredsModel struct {
+	CustomORMModel
+	CredsBase
+}
+
+type ICredCreate struct {
+	CredsBase
+}
+
+type ICredUpdate struct {
+	Username    string `json:"username" gorm:"<-"`
+	Password    string `json:"password" gorm:"<-"`
+	Description string `json:"description" gorm:"<-" `
 }

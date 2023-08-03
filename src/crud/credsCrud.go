@@ -5,16 +5,19 @@ import (
 	"github.com/tomp332/bruteForcer/src/models"
 )
 
-func AddCreds(creds []*models.Cred) ([]*models.Cred, error) {
+// AddCreds adds creds to the database
+func AddCreds(creds []*models.CredsModel) ([]*models.CredsModel, error) {
+	// Create a slice of CredsModel structs from the given ICredCreate structs
 	result := src.MainDB.Create(creds)
 	if result.Error != nil {
-		return creds, result.Error
+		return nil, result.Error
 	}
 	return creds, nil
 }
 
-func GetCreds(limit, page int) ([]*models.Cred, error) {
-	var creds []*models.Cred
+// GetCreds returns creds from the database
+func GetCreds(limit, page uint) ([]*models.CredsModel, error) {
+	var creds []*models.CredsModel
 	err := src.MainDB.Scopes(src.NewPaginate(limit, page).PaginatedResult).Find(&creds).Error
 	return creds, err
 }

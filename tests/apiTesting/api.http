@@ -20,3 +20,25 @@ Content-Type: application/json
 
 ###
 GET http://{{hostname}}:{{port}}/api/v1/slaves
+
+###
+POST http://{{hostname}}:{{port}}/api/v1/creds
+Content-Type: application/json
+
+[
+  {
+    "description": "Test",
+    "password": "123",
+    "username": "user"
+  },
+  {
+    "description": "Test",
+    "password": "123",
+    "username": "user1"
+  },
+  {
+    "description": "Test",
+    "password": "123",
+    "username": "user2"
+  }
+]

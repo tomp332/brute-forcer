@@ -15,24 +15,25 @@ import (
 // @Description Add credentials to the database
 // @Tags Creds
 // @Accept json
-// @Success 200 {array} models.Cred
+// @Param credentials body []models.ICredCreate true "Credentials"
+// @Success 200 {array} models.CredsModel
 // @Failure 400 {object} models.ServerError
 // @Failure 500 {object} models.ServerError
 // @Router /creds [post]
 func AddCreds(c echo.Context) error {
-	var creds []*models.Cred
+	var creds []*models.CredsModel
 	err := c.Bind(&creds)
 	if err != nil || creds == nil {
 		log.Printf("Error binding creds struct")
 		return c.JSONBlob(http.StatusBadRequest,
-			utils.BadRequestError("Validation error for Cred schema", err))
+			utils.BadRequestError("Validation error for CredsModel schema", err))
 	}
-	creds, err = crud.AddCreds(creds)
+	addedCreds, err := crud.AddCreds(creds)
 	if err != nil {
 		return c.JSONBlob(http.StatusInternalServerError,
 			utils.BadRequestError("Error adding new credentials to database", err))
 	}
-	return c.JSON(http.StatusOK, creds)
+	return c.JSON(http.StatusOK, addedCreds)
 }
 
 // GetCreds godoc
@@ -41,19 +42,19 @@ func AddCreds(c echo.Context) error {
 // @Tags Creds
 // @Param limit query int false "Limit the number of results"
 // @Param page query int false "Page number"
-// @Success 200 {array} models.Cred
+// @Success 200 {array} models.CredsModel
 // @Failure 400 {object} models.ServerError
 // @Failure 500 {object} models.ServerError
 // @Router /creds [get]
 func GetCreds(c echo.Context) error {
-	var paginateStruct *src.Paginate
-	err := c.Bind(&paginateStruct)
-	if err != nil || paginateStruct == nil {
+	paginationParams := new(src.Paginate)
+	err := c.Bind(paginationParams)
+	if err != nil || paginationParams == nil {
 		log.Printf("Error binding paginate struct")
 		return c.JSONBlob(http.StatusBadRequest,
 			utils.BadRequestError("One or more of the parameters specified for pagination was incorrect", err))
 	}
-	creds, err := crud.GetCreds(paginateStruct.Limit, paginateStruct.Page)
+	creds, err := crud.GetCreds(paginationParams.Limit, paginationParams.Page)
 	if err != nil {
 		log.Printf("Error getting creds: %s", err.Error())
 		return c.JSONBlob(http.StatusInternalServerError,

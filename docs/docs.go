@@ -43,7 +43,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Cred"
+                                "$ref": "#/definitions/models.CredsModel"
                             }
                         }
                     },
@@ -70,13 +70,27 @@ const docTemplate = `{
                     "Creds"
                 ],
                 "summary": "Add credentials",
+                "parameters": [
+                    {
+                        "description": "Credentials",
+                        "name": "credentials",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ICredCreate"
+                            }
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Cred"
+                                "$ref": "#/definitions/models.CredsModel"
                             }
                         }
                     },
@@ -145,7 +159,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Slave"
+                                "$ref": "#/definitions/models.SlaveModel"
                             }
                         }
                     },
@@ -181,7 +195,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Slave"
+                                "$ref": "#/definitions/models.SlaveModel"
                             }
                         }
                     },
@@ -202,19 +216,37 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Cred": {
+        "gorm.DeletedAt": {
             "type": "object",
             "properties": {
-                "created_at": {
+                "time": {
                     "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.CredsModel": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
                 },
                 "description": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "integer"
+                },
                 "password": {
                     "type": "string"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 },
                 "username": {
@@ -233,6 +265,20 @@ const docTemplate = `{
                 },
                 "status": {
                     "$ref": "#/definitions/models.ServiceStatus"
+                }
+            }
+        },
+        "models.ICredCreate": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },
@@ -259,11 +305,17 @@ const docTemplate = `{
                 "ShuttingDown"
             ]
         },
-        "models.Slave": {
+        "models.SlaveModel": {
             "type": "object",
             "properties": {
-                "created_at": {
+                "createdAt": {
                     "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "ip": {
                     "type": "string"
@@ -274,7 +326,7 @@ const docTemplate = `{
                 "port": {
                     "type": "integer"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 }
             }

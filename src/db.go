@@ -10,19 +10,19 @@ import (
 var MainDB *gorm.DB
 
 type Paginate struct {
-	Limit int
-	Page  int
+	Limit uint `query:"limit"`
+	Page  uint `query:"page"`
 }
 
-func NewPaginate(limit int, page int) *Paginate {
+func NewPaginate(limit uint, page uint) *Paginate {
 	return &Paginate{Limit: limit, Page: page}
 }
 
-func (p *Paginate) PaginatedResult(db *gorm.DB) *gorm.DB {
-	offset := (p.Page - 1) * p.Limit
+func (pg *Paginate) PaginatedResult(db *gorm.DB) *gorm.DB {
+	offset := (pg.Page - 1) * pg.Limit
 
-	return db.Offset(offset).
-		Limit(p.Limit)
+	return db.Offset(int(offset)).
+		Limit(int(pg.Limit))
 }
 
 func InitDB() {
@@ -31,7 +31,11 @@ func InitDB() {
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect database: %s", err.Error()))
 	}
-	err = MainDB.AutoMigrate(&models.Slave{})
+	err = MainDB.AutoMigrate(&models.SlaveModel{})
+	if err != nil {
+		panic(fmt.Sprintf("Unable to migrate MainDB table: %s", err.Error()))
+	}
+	err = MainDB.AutoMigrate(&models.CredsModel{})
 	if err != nil {
 		panic(fmt.Sprintf("Unable to migrate MainDB table: %s", err.Error()))
 	}

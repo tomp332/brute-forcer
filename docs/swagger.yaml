@@ -1,14 +1,26 @@
 basePath: /api/v1
 definitions:
-  models.Cred:
+  gorm.DeletedAt:
     properties:
-      created_at:
+      time:
         type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.CredsModel:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
       description:
         type: string
+      id:
+        type: integer
       password:
         type: string
-      updated_at:
+      updatedAt:
         type: string
       username:
         type: string
@@ -21,6 +33,15 @@ definitions:
         type: integer
       status:
         $ref: '#/definitions/models.ServiceStatus'
+    type: object
+  models.ICredCreate:
+    properties:
+      description:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
     type: object
   models.ServerError:
     properties:
@@ -39,17 +60,21 @@ definitions:
     - PENDING
     - ERROR
     - ShuttingDown
-  models.Slave:
+  models.SlaveModel:
     properties:
-      created_at:
+      createdAt:
         type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
       ip:
         type: string
       name:
         type: string
       port:
         type: integer
-      updated_at:
+      updatedAt:
         type: string
     type: object
 host: localhost:3000
@@ -75,7 +100,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Cred'
+              $ref: '#/definitions/models.CredsModel'
             type: array
         "400":
           description: Bad Request
@@ -92,12 +117,21 @@ paths:
       consumes:
       - application/json
       description: Add credentials to the database
+      parameters:
+      - description: Credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.ICredCreate'
+          type: array
       responses:
         "200":
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Cred'
+              $ref: '#/definitions/models.CredsModel'
             type: array
         "400":
           description: Bad Request
@@ -142,7 +176,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Slave'
+              $ref: '#/definitions/models.SlaveModel'
             type: array
         "400":
           description: Invalid request
@@ -166,7 +200,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Slave'
+              $ref: '#/definitions/models.SlaveModel'
             type: array
         "400":
           description: Invalid request
