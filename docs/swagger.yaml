@@ -8,14 +8,12 @@ definitions:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
-  models.CredsModel:
+  models.CredentialsDTO:
     properties:
       createdAt:
         type: string
       deletedAt:
         $ref: '#/definitions/gorm.DeletedAt'
-      description:
-        type: string
       id:
         type: integer
       password:
@@ -34,10 +32,17 @@ definitions:
       status:
         $ref: '#/definitions/models.ServiceStatus'
     type: object
-  models.ICredCreate:
+  models.ICredentialsCreate:
     properties:
-      description:
+      password:
         type: string
+      username:
+        type: string
+    type: object
+  models.IUpdateCredentials:
+    properties:
+      id:
+        type: integer
       password:
         type: string
       username:
@@ -60,7 +65,7 @@ definitions:
     - PENDING
     - ERROR
     - ShuttingDown
-  models.SlaveModel:
+  models.SlaveDTO:
     properties:
       createdAt:
         type: string
@@ -84,6 +89,28 @@ info:
   version: "1.0"
 paths:
   /creds:
+    delete:
+      description: IDeleteParams credentials from the database
+      parameters:
+      - description: ID of the credentials to delete
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ServerError'
+      summary: Delete credentials by ID
+      tags:
+      - Creds
     get:
       description: Get credentials from the database
       parameters:
@@ -91,7 +118,7 @@ paths:
         in: query
         name: limit
         type: integer
-      - description: Page number
+      - description: Offset number
         in: query
         name: page
         type: integer
@@ -100,7 +127,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.CredsModel'
+              $ref: '#/definitions/models.CredentialsDTO'
             type: array
         "400":
           description: Bad Request
@@ -118,20 +145,20 @@ paths:
       - application/json
       description: Add credentials to the database
       parameters:
-      - description: Credentials
+      - description: ICredentialsCreate
         in: body
         name: credentials
         required: true
         schema:
           items:
-            $ref: '#/definitions/models.ICredCreate'
+            $ref: '#/definitions/models.ICredentialsCreate'
           type: array
       responses:
         "200":
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.CredsModel'
+              $ref: '#/definitions/models.ICredentialsCreate'
             type: array
         "400":
           description: Bad Request
@@ -165,7 +192,7 @@ paths:
         in: query
         name: limit
         type: integer
-      - description: Page number
+      - description: Offset number
         in: query
         name: page
         type: integer
@@ -176,7 +203,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.SlaveModel'
+              $ref: '#/definitions/models.SlaveDTO'
             type: array
         "400":
           description: Invalid request
@@ -200,7 +227,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.SlaveModel'
+              $ref: '#/definitions/models.SlaveDTO'
             type: array
         "400":
           description: Invalid request

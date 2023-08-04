@@ -6,8 +6,8 @@ import (
 )
 
 type CustomORMModel struct {
-	ID        uint           `json:"id" gorm:"primaryKey"`
-	CreatedAt time.Time      `json:"createdAt" gorm:"<-"`
-	UpdatedAt time.Time      `json:"updatedAt" gorm:"<-"`
-	DeletedAt gorm.DeletedAt `json:"deletedAt" gorm:"<-"`
+	ID        uint           `gorm:"primaryKey" gorm:"-" json:"id"`
+	CreatedAt time.Time      `gorm:"-" json:"createdAt"`
+	UpdatedAt time.Time      `gorm:"-" json:"updatedAt" `
+	DeletedAt gorm.DeletedAt `gorm:"-" json:"deletedAt" `
 }

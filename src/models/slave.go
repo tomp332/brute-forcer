@@ -1,12 +1,16 @@
 package models
 
-type SlaveBase struct {
+type Slave struct {
 	Name string `json:"name"`
 	Ip   string `json:"ip"`
 	Port int16  `json:"port"`
 }
 
-type SlaveModel struct {
+type SlaveDTO struct {
 	CustomORMModel
-	SlaveBase
+	Slave
+}
+
+func (SlaveDTO) TableName() string {
+	return "Slaves"
 }

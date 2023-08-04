@@ -11,11 +11,16 @@ import (
 var GlobalSettings *MainSettings
 var ServiceHealth *models.Health
 
+type APISettings struct {
+	PaginationDefaultLimit uint `env:"PAGINATION_DEFAULT_LIMIT" envDefault:"50"`
+}
+
 type MainSettings struct {
 	DBFilePath  string `env:"DB_FILE_PATH,required"`
 	ServerPort  int16  `env:"SERVER_PORT" envDefault:"8080"`
 	ServerHost  string `env:"SERVER_HOST" envDefault:"localhost"`
 	Environment string `env:"ENVIRONMENT" envDefault:"dev"`
+	APISettings
 }
 
 func LoadSettings() {

@@ -1,30 +1,28 @@
 package crud
 
-import (
-	"github.com/tomp332/bruteForcer/src"
-)
+import "gorm.io/gorm"
 
-type CRUD interface {
-	Add() error
+type Crudable interface {
 	Get() error
+	Set() error
 	Update() error
 	Delete() error
 }
 
-// Get fetch data from the database
-func Get(limit, page uint, model interface{}) (interface{}, error) {
-	err := src.MainDB.Scopes(src.NewPaginate(limit, page).PaginatedResult).Find(&model).Error
-	if err != nil {
-		return nil, err
-	}
-	return model, err
+type IDeleteParams struct {
+	ID uint `query:"id"`
 }
 
-// Add data to the database
-func Add(model interface{}) (interface{}, error) {
-	result := src.MainDB.Create(model)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return model, nil
+type IPaginateParams struct {
+	Limit  uint `query:"limit"`
+	Offset uint `query:"page"`
+}
+
+func NewPaginate(limit uint, page uint) *IPaginateParams {
+	return &IPaginateParams{Limit: limit, Offset: page}
+}
+
+func (pg *IPaginateParams) PaginatedResult(db *gorm.DB) *gorm.DB {
+	offset := (pg.Offset - 1) * pg.Limit
+	return db.Offset(int(offset)).Limit(int(pg.Limit))
 }

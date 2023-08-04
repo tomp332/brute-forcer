@@ -1,22 +1,26 @@
 package models
 
-type CredsBase struct {
-	Username    string `json:"username"`
-	Password    string `json:"password"`
-	Description string `json:"description"`
-}
-
-type CredsModel struct {
+type CredentialsDTO struct {
+	ICredentialsCreate
 	CustomORMModel
-	CredsBase
 }
 
-type ICredCreate struct {
-	CredsBase
+func (CredentialsDTO) TableName() string {
+	return "Credentials"
 }
 
-type ICredUpdate struct {
-	Username    string `json:"username" gorm:"<-"`
-	Password    string `json:"password" gorm:"<-"`
-	Description string `json:"description" gorm:"<-" `
+type ICredentialsCreate struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type IUpdateCredentials struct {
+	ID       uint   `json:"id" gorm:"primaryKey"`
+	Username string `json:"username" gorm:"<-"`
+	Password string `json:"password" gorm:"<-"`
+}
+
+type IReadCredentials struct {
+	ID uint `json:"id"`
+	ICredentialsCreate
 }

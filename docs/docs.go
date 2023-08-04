@@ -32,7 +32,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Page number",
+                        "description": "Offset number",
                         "name": "page",
                         "in": "query"
                     }
@@ -43,7 +43,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.CredsModel"
+                                "$ref": "#/definitions/models.CredentialsDTO"
                             }
                         }
                     },
@@ -72,14 +72,14 @@ const docTemplate = `{
                 "summary": "Add credentials",
                 "parameters": [
                     {
-                        "description": "Credentials",
+                        "description": "ICredentialsCreate",
                         "name": "credentials",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.ICredCreate"
+                                "$ref": "#/definitions/models.ICredentialsCreate"
                             }
                         }
                     }
@@ -90,9 +90,42 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.CredsModel"
+                                "$ref": "#/definitions/models.ICredentialsCreate"
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ServerError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ServerError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "IDeleteParams credentials from the database",
+                "tags": [
+                    "Creds"
+                ],
+                "summary": "Delete credentials by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of the credentials to delete",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -148,7 +181,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Page number",
+                        "description": "Offset number",
                         "name": "page",
                         "in": "query"
                     }
@@ -159,7 +192,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.SlaveModel"
+                                "$ref": "#/definitions/models.SlaveDTO"
                             }
                         }
                     },
@@ -195,7 +228,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.SlaveModel"
+                                "$ref": "#/definitions/models.SlaveDTO"
                             }
                         }
                     },
@@ -228,7 +261,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.CredsModel": {
+        "models.CredentialsDTO": {
             "type": "object",
             "properties": {
                 "createdAt": {
@@ -236,9 +269,6 @@ const docTemplate = `{
                 },
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "description": {
-                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -268,11 +298,22 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ICredCreate": {
+        "models.ICredentialsCreate": {
             "type": "object",
             "properties": {
-                "description": {
+                "password": {
                     "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.IUpdateCredentials": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
                 },
                 "password": {
                     "type": "string"
@@ -305,7 +346,7 @@ const docTemplate = `{
                 "ShuttingDown"
             ]
         },
-        "models.SlaveModel": {
+        "models.SlaveDTO": {
             "type": "object",
             "properties": {
                 "createdAt": {
