@@ -8,21 +8,6 @@ definitions:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
-  models.CredentialsDTO:
-    properties:
-      createdAt:
-        type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
-      id:
-        type: integer
-      password:
-        type: string
-      updatedAt:
-        type: string
-      username:
-        type: string
-    type: object
   models.Health:
     properties:
       id:
@@ -34,6 +19,19 @@ definitions:
     type: object
   models.ICredentialsCreate:
     properties:
+      hash:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.IReadCredentials:
+    properties:
+      hash:
+        type: string
+      id:
+        type: integer
       password:
         type: string
       username:
@@ -41,6 +39,8 @@ definitions:
     type: object
   models.IUpdateCredentials:
     properties:
+      hash:
+        type: string
       id:
         type: integer
       password:
@@ -127,7 +127,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.CredentialsDTO'
+              $ref: '#/definitions/models.IReadCredentials'
             type: array
         "400":
           description: Bad Request

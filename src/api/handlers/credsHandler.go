@@ -21,7 +21,7 @@ import (
 // @Failure 500 {object} models.ServerError
 // @Router /creds [post]
 func AddCreds(c echo.Context) error {
-	var creds []*models.ICredentialsCreate
+	var creds []models.ICredentialsCreate
 	err := c.Bind(&creds)
 	if err != nil || creds == nil {
 		log.Printf("Error binding creds struct")
@@ -47,7 +47,7 @@ func AddCreds(c echo.Context) error {
 // @Tags Creds
 // @Param limit query int false "Limit the number of results"
 // @Param page query int false "Offset number"
-// @Success 200 {array} models.CredentialsDTO
+// @Success 200 {array} models.IReadCredentials
 // @Failure 400 {object} models.ServerError
 // @Failure 500 {object} models.ServerError
 // @Router /creds [get]
@@ -78,7 +78,7 @@ func GetCreds(c echo.Context) error {
 // @Tags Creds
 // @Accept json
 // @Param credentials body []models.IUpdateCredentials true "ICredentialsCreate"
-// @Success 200 {array} models.CredentialsDTO
+// @Success 200 {array} models.IReadCredentials
 // @Failure 400 {object} models.ServerError
 // @Failure 500 {object} models.ServerError
 func UpdateCreds(c echo.Context) error {

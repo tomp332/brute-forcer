@@ -1,8 +1,14 @@
 package models
 
+type CredentialsBase struct {
+	Username string `json:"username" gorm:"uniqueIndex:idx_username_password"`
+	Password string `json:"password" gorm:"uniqueIndex:idx_username_password"`
+	Hash     string `json:"hash" gorm:"not null;uniqueIndex:idx_hash"`
+}
+
 type CredentialsDTO struct {
-	ICredentialsCreate
 	CustomORMModel
+	CredentialsBase
 }
 
 func (CredentialsDTO) TableName() string {
@@ -10,17 +16,15 @@ func (CredentialsDTO) TableName() string {
 }
 
 type ICredentialsCreate struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	CredentialsBase
 }
 
 type IUpdateCredentials struct {
-	ID       uint   `json:"id" gorm:"primaryKey"`
-	Username string `json:"username" gorm:"<-"`
-	Password string `json:"password" gorm:"<-"`
+	ID uint `json:"id"`
+	CredentialsBase
 }
 
 type IReadCredentials struct {
 	ID uint `json:"id"`
-	ICredentialsCreate
+	CredentialsBase
 }

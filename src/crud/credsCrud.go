@@ -12,26 +12,28 @@ var CredentialsCrud = &ICredentialsCrud{}
 
 // Get gets the credentials with the given id
 func (c *ICredentialsCrud) Get(limit, offset uint) ([]models.IReadCredentials, error) {
-	var objSlice []*models.CredentialsDTO
+	var objSlice []models.CredentialsDTO
 	err := src.MainDB.Scopes(NewPaginate(limit, offset).PaginatedResult).Find(&objSlice).Error
 	if err != nil {
 		return nil, err
 	}
 	result := make([]models.IReadCredentials, len(objSlice))
-	err = utils.CopyStructFields(objSlice, &result)
-	if err != nil {
-		return nil, err
+	for i, obj := range objSlice {
+		err = utils.CopyStructFields(obj, &result[i])
+		if err != nil {
+			return nil, err
+		}
 	}
 	return result, nil
 }
 
 // Add adds the given credentials to the database
-func (c *ICredentialsCrud) Add(creds []*models.ICredentialsCreate) ([]models.IReadCredentials, error) {
+func (c *ICredentialsCrud) Add(creds []models.ICredentialsCreate) ([]models.IReadCredentials, error) {
 	credsModelSlice := make([]models.CredentialsDTO, len(creds))
 	for i, credsBase := range creds {
-		credsModelSlice[i] = models.CredentialsDTO{
-			ICredentialsCreate: *credsBase,
-			CustomORMModel:     models.CustomORMModel{},
+		err := utils.CopyStructFields(credsBase, &credsModelSlice[i])
+		if err != nil {
+			return nil, err
 		}
 	}
 	result := src.MainDB.Create(credsModelSlice)
@@ -39,9 +41,11 @@ func (c *ICredentialsCrud) Add(creds []*models.ICredentialsCreate) ([]models.IRe
 		return nil, result.Error
 	}
 	addedCredentials := make([]models.IReadCredentials, len(credsModelSlice))
-	err := utils.CopyStructFields(addedCredentials, &creds)
-	if err != nil {
-		return nil, err
+	for i, obj := range credsModelSlice {
+		err := utils.CopyStructFields(obj, addedCredentials[i])
+		if err != nil {
+			return nil, err
+		}
 	}
 	return addedCredentials, nil
 }
@@ -51,13 +55,10 @@ func (c *ICredentialsCrud) Update(creds []*models.IUpdateCredentials) ([]models.
 	updatedCredentials := make([]models.CredentialsDTO, len(creds))
 	for i, updateSchema := range creds {
 		updatedCredentials[i] = models.CredentialsDTO{
-			ICredentialsCreate: models.ICredentialsCreate{
-				Username: updateSchema.Username,
-				Password: updateSchema.Password,
-			},
 			CustomORMModel: models.CustomORMModel{
 				ID: updateSchema.ID,
 			},
+			CredentialsBase: updateSchema.CredentialsBase,
 		}
 	}
 	result := src.MainDB.Save(updatedCredentials)

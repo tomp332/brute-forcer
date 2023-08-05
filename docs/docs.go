@@ -43,7 +43,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.CredentialsDTO"
+                                "$ref": "#/definitions/models.IReadCredentials"
                             }
                         }
                     },
@@ -261,29 +261,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.CredentialsDTO": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
         "models.Health": {
             "type": "object",
             "properties": {
@@ -301,6 +278,26 @@ const docTemplate = `{
         "models.ICredentialsCreate": {
             "type": "object",
             "properties": {
+                "hash": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.IReadCredentials": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
                 "password": {
                     "type": "string"
                 },
@@ -312,6 +309,9 @@ const docTemplate = `{
         "models.IUpdateCredentials": {
             "type": "object",
             "properties": {
+                "hash": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
