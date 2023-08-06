@@ -38,19 +38,19 @@ jobs:
         run: go build -o goBrute
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
+        if: startsWith(matrix.goos, 'windows')
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          if: startsWith(matrix.goos, 'windows')
           file: goBrute.exe
           asset_name: goBrute.exe
           tag: ${{ github.ref }}
           overwrite: true
           body: "New binary release version"
       - name: Upload binaries to release
+        if: startsWith(matrix.goos, 'windows')
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          if: startsWith(matrix.goos, 'windows')
           file: goBrute
           asset_name: goBrute
           tag: ${{ github.ref }}
