@@ -1,12 +1,10 @@
-# goBrute - Password Brute Forcer
+<div align="center"> 
+  <img alt="img" src="https://github.com/tomp332/gobrute/assets/47506972/ea8ea660-867b-46fa-9439-0d7eb7b6c8b3" />
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/tomp332/gobrute?branch=main)](https://goreportcard.com/report/github.com/tomp332/gobrute)
 [![Build](https://github.com/tomp332/gobrute/actions/workflows/main.yml/badge.svg)](https://github.com/tomp332/gobrute/actions/workflows/main.yml)
 [![License](https://img.shields.io/github/license/tomp332/gobrute.svg)](https://github.com/tomp332/gobrute/blob/main/LICENSE.md)
 [![Code Coverage](https://codecov.io/gh/tomp332/gobrute/settings/badge.svg)](https://codecov.io/gh/tomp332/gobrute?branch=main)
-
-<div align="center"> 
-  <img alt="img" src="https://github.com/tomp332/gobrute/assets/47506972/893e19a0-9ee8-47a7-93e9-84fa617eb163" width="500" height="450" />
 </div>
 
 ## Description
