@@ -41,7 +41,10 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Set env
-        run: echo "RELEASE_VERSION=$(git describe --abbrev=0 --tags)" >> $GITHUB_ENV
+
+        run: |
+          latestTag=$(git describe --abbrev=0 --tags)
+          echo "RELEASE_VERSION=$latestTag" >> $GITHUB_ENV
       - name: Build Go
         run: |
           curtag=${GITHUB_REF_NAME}
