@@ -5,10 +5,7 @@ on:
     branches-ignore:
       - 'dependabot/**'
 permissions:
-  id-token: write
   contents: write
-  issues: write
-  pull-requests: write
 
 jobs:
   releases-matrix:
