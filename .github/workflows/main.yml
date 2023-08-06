@@ -14,9 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
-        goos: [ linux, windows ]
-        goarch: [ "386"]
+        goos: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -70,7 +68,7 @@ jobs:
           bodyFile: "body.log"
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ncipollo/release-action@v1
-        if: startsWith(matrix.goos, 'linux')
+        if: startsWith(matrix.goos, 'linux') || startsWith(matrix.goos, 'macos')
         with:
           name: goBrute
           tag: ${{ env.RELEASE_VERSION }}
