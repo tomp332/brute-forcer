@@ -30,11 +30,29 @@ jobs:
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      - uses: wangyoucao577/go-release-action@v1
+      - name: Build Go
+        if: startsWith(matrix.os, 'windows')
+        run: go build -o goBrute.exe
+      - name: Build Go
+        if: startsWith(matrix.os, 'linux')
+        run: go build -o goBrute
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: ${{ matrix.goos }}
-          goarch: ${{ matrix.goarch }}
-          binary_name: "goBrut"
-          release_name: "goBrut v${{ github.ref }}"
-          extra_files: LICENSE.md README.md
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          if: startsWith(matrix.os, 'windows')
+          file: goBrute.exe
+          asset_name: goBrute.exe
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "New binary release version"
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          if: startsWith(matrix.os, 'windows')
+          file: goBrute
+          asset_name: goBrute
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "New binary release version"
