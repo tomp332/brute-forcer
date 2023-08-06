@@ -40,7 +40,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          if: startsWith(matrix.os, 'windows')
+          if: startsWith(matrix.goos, 'windows')
           file: goBrute.exe
           asset_name: goBrute.exe
           tag: ${{ github.ref }}
@@ -50,7 +50,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          if: startsWith(matrix.os, 'windows')
+          if: startsWith(matrix.goos, 'windows')
           file: goBrute
           asset_name: goBrute
           tag: ${{ github.ref }}
