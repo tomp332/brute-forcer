@@ -1,6 +1,9 @@
 name: Upload Go test results
 
-on: [ push ]
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
 
 jobs:
   releases-matrix:
@@ -42,9 +45,9 @@ jobs:
           prevtag="${major_minor}.${patch}"
           echo "" > body.log
           if git tag | grep $prevtag ; then
-          git log -q ${curtag}...${prevtag} --pretty="- %s" -q --no-color >> body.log
+            git log -q ${curtag}...${prevtag} --pretty="- %s" -q --no-color >> body.log
           else
-          git log --pretty="- %s" -q --no-color >> body.log
+            git log --pretty="- %s" -q --no-color >> body.log
           fi
           line_count=$(cat body.log | wc -l)
           echo "curtag=$curtag" >> $GITHUB_OUTPUT
