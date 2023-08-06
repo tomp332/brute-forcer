@@ -1,16 +1,19 @@
-# GoLang Brute Forcer
+# goBrute - Password Brute Forcer
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/tomp332/gospray)](https://goreportcard.com/report/github.com/tomp332/gospray)
 [![Build](https://github.com/tomp332/gospray/actions/workflows/main.yml/badge.svg)](https://github.com/tomp332/gospray/actions/workflows/main.yml)
 [![License](https://img.shields.io/github/license/tomp332/gospray.svg)](https://github.com/tomp332/gospray/blob/main/LICENSE.md)
 [![Code Coverage](https://codecov.io/gh/tomp332/gospray/settings/badge.svg)](https://codecov.io/gh/tomp332/gospray?branch=main)
 
-![GoLang Brute Forcer](https://github.com/tomp332/gospray/assets/47506972/bcf9917b-a7a8-4f89-90f5-53af74ade1a1)
+<div align="center"> 
+  <img src="https://github.com/tomp332/gospray/assets/47506972/893e19a0-9ee8-47a7-93e9-84fa617eb163" width="500" height="450" />
+</div>
 
 ## Description
 
 GoLang Brute Forcer is a command-line tool that performs brute force attacks to test the security of passwords or keys.
 It is designed to help identify weak passwords and improve overall system security.
+
 
 ## Features
 
