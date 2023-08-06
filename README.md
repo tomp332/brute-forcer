@@ -26,7 +26,7 @@
 
 ### Pre-built Binaries
 
-Download pre-built binaries for your platform from the [Releases](https://github.com/your-username/gobrut/releases) page. Extract the archive and add the binary to your PATH.
+Download pre-built binaries for your platform from the [Releases](https://github.com/tomp332/gobrut/releases) page. Extract the archive and add the binary to your PATH.
 
 ### Build from Source
 
