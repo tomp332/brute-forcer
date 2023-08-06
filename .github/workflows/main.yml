@@ -31,10 +31,10 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Build Go
-        if: startsWith(matrix.os, 'windows')
+        if: startsWith(matrix.goos, 'windows')
         run: go build -o goBrute.exe
       - name: Build Go
-        if: startsWith(matrix.os, 'linux')
+        if: startsWith(matrix.goos, 'linux')
         run: go build -o goBrute
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
