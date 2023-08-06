@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/github/license/tomp332/gospray.svg)](https://github.com/tomp332/gospray/blob/main/LICENSE.md)
 [![Code Coverage](https://codecov.io/gh/tomp332/gospray/settings/badge.svg)](https://codecov.io/gh/tomp332/gospray?branch=main)
 
-![GoLang Brute Forcer](banner.png)
+![GoLang Brute Forcer](https://github.com/tomp332/gospray/assets/47506972/bcf9917b-a7a8-4f89-90f5-53af74ade1a1)
 
 ## Description
 
