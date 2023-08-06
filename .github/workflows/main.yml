@@ -25,12 +25,12 @@ jobs:
           echo "RELEASE_VERSION=$latestTag" >> $GITHUB_ENV
       - name: Create release
         id: create_release
-        uses: actions/create-release@v1.12.0
+        uses: ncipollo/release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.RELEASE_VERSION }}
-          release_name: Release ${{ env.RELEASE_VERSION }}
+          tag: ${{ env.RELEASE_VERSION }}
+          name: Release ${{ env.RELEASE_VERSION }}
           draft: false
           prerelease: false
   release_assets:
