@@ -28,13 +28,13 @@
 
 ### Pre-built Binaries
 
-Download pre-built binaries for your platform from the [Releases](https://github.com/your-username/goBrut/releases) page. Extract the archive and add the binary to your PATH.
+Download pre-built binaries for your platform from the [Releases](https://github.com/your-username/gobrut/releases) page. Extract the archive and add the binary to your PATH.
 
 ### Build from Source
 
 Make sure you have Go (1.15+) installed and run the following commands:
 
 ```bash
-$ git clone https://github.com/your-username/goBrut.git
+$ git clone https://github.com/tomp332/gobrut.git
 $ cd goBrut
 $ go build
