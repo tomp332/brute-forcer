@@ -61,24 +61,8 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       # -------------Releases----------------
-      - name: Build Go
-        run: |
-          curtag=${GITHUB_REF_NAME}
-          major_minor=$(echo "$curtag" | cut -d'.' -f1-2)
-          patch=$(echo "$curtag" | cut -d'.' -f3)
-          # avoid empty patch number
-          [ -n "$patch" ] && ((patch--)) || patch=".x"
-          prevtag="${major_minor}.${patch}"
-          echo "" > body.log
-          if git tag | grep $prevtag ; then
-            git log -q ${curtag}...${prevtag} --pretty="- %s" -q --no-color >> body.log
-          else
-            git log --pretty="- %s" -q --no-color >> body.log
-          fi
-          line_count=$(cat body.log | wc -l)
-          echo "curtag=$curtag" >> $GITHUB_OUTPUT
-          echo "prevtag=$prevtag" >> $GITHUB_OUTPUT
-          echo "line_count=$line_count" >> $GITHUB_OUTPUT
+      - name: Build Go binary
+        run: go build -o goBrute-${{ matrix.config.os }}
 
       # -------------Upload----------------
       - name: Upload release assets
