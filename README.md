@@ -6,7 +6,7 @@
 [![Code Coverage](https://codecov.io/gh/tomp332/gobrute/settings/badge.svg)](https://codecov.io/gh/tomp332/gobrute?branch=main)
 
 <div align="center"> 
-  <img src="https://github.com/tomp332/gobrute/assets/47506972/893e19a0-9ee8-47a7-93e9-84fa617eb163" width="500" height="450" />
+  <img alt="img" src="https://github.com/tomp332/gobrute/assets/47506972/893e19a0-9ee8-47a7-93e9-84fa617eb163" width="500" height="450" />
 </div>
 
 ## Description
