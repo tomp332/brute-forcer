@@ -10,10 +10,12 @@ permissions:
 
 jobs:
   create_release:
+    # This job creates a release and uploads the release assets.
     name: Create release
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
     steps:
       - uses: actions/checkout@v3
         with:
