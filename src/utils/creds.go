@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/tomp332/gospray/src/models"
+	"github.com/tomp332/gobrute/src/models"
 )
 
 // TransformDTOCredentials converts a slice of CredentialsDTO to a slice of IReadCredentials

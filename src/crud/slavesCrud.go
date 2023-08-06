@@ -1,8 +1,8 @@
 package crud
 
 import (
-	"github.com/tomp332/gospray/src"
-	"github.com/tomp332/gospray/src/models"
+	"github.com/tomp332/gobrute/src"
+	"github.com/tomp332/gobrute/src/models"
 )
 
 type SlavesCrud struct{}

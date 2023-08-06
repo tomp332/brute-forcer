@@ -1,12 +1,12 @@
 # goBrute - Password Brute Forcer
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/tomp332/gospray)](https://goreportcard.com/report/github.com/tomp332/gospray)
-[![Build](https://github.com/tomp332/gospray/actions/workflows/main.yml/badge.svg)](https://github.com/tomp332/gospray/actions/workflows/main.yml)
-[![License](https://img.shields.io/github/license/tomp332/gospray.svg)](https://github.com/tomp332/gospray/blob/main/LICENSE.md)
-[![Code Coverage](https://codecov.io/gh/tomp332/gospray/settings/badge.svg)](https://codecov.io/gh/tomp332/gospray?branch=main)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tomp332/gobrute)](https://goreportcard.com/report/github.com/tomp332/gobrute)
+[![Build](https://github.com/tomp332/gobrute/actions/workflows/main.yml/badge.svg)](https://github.com/tomp332/gobrute/actions/workflows/main.yml)
+[![License](https://img.shields.io/github/license/tomp332/gobrute.svg)](https://github.com/tomp332/gobrute/blob/main/LICENSE.md)
+[![Code Coverage](https://codecov.io/gh/tomp332/gobrute/settings/badge.svg)](https://codecov.io/gh/tomp332/gobrute?branch=main)
 
 <div align="center"> 
-  <img src="https://github.com/tomp332/gospray/assets/47506972/893e19a0-9ee8-47a7-93e9-84fa617eb163" width="500" height="450" />
+  <img src="https://github.com/tomp332/gobrute/assets/47506972/893e19a0-9ee8-47a7-93e9-84fa617eb163" width="500" height="450" />
 </div>
 
 ## Description

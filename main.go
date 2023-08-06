@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "github.com/tomp332/gospray/docs"
-	"github.com/tomp332/gospray/src"
-	"github.com/tomp332/gospray/src/api"
+	_ "github.com/tomp332/gobrute/docs"
+	"github.com/tomp332/gobrute/src"
+	"github.com/tomp332/gobrute/src/api"
 )
 
 // @title Brute Forcer API

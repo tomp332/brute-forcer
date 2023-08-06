@@ -3,7 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"github.com/labstack/echo/v4"
-	"github.com/tomp332/gospray/src"
+	"github.com/tomp332/gobrute/src"
 	"net/http"
 )
 

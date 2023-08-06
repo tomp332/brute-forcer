@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
-	"github.com/tomp332/gospray/src"
-	"github.com/tomp332/gospray/src/api/middlewares"
-	"github.com/tomp332/gospray/src/api/routers"
+	"github.com/tomp332/gobrute/src"
+	"github.com/tomp332/gobrute/src/api/middlewares"
+	"github.com/tomp332/gobrute/src/api/routers"
 )
 
 var MainServerObj *echo.Echo

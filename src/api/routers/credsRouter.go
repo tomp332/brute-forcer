@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/tomp332/gospray/src/api/handlers"
+	"github.com/tomp332/gobrute/src/api/handlers"
 )
 
 var CredsRouter *echo.Group

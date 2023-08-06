@@ -1,4 +1,4 @@
-module github.com/tomp332/gospray
+module github.com/tomp332/gobrute
 
 go 1.20
 
