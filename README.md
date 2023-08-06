@@ -1,7 +1,7 @@
 # GoLang Brute Forcer
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/tomp332/gospray)](https://goreportcard.com/report/github.com/tomp332/gospray)
-[![Build](https://github.com/tomp332/gospray/actions/workflows/build.yml/badge.svg)](https://github.com/tomp332/gospray/actions/workflows/build.yml)
+[![Build](https://github.com/tomp332/gospray/actions/workflows/main.yml/badge.svg)](https://github.com/tomp332/gospray/actions/workflows/build.yml)
 [![License](https://img.shields.io/github/license/tomp332/gospray.svg)](https://github.com/tomp332/gospray/blob/main/LICENSE.md)
 [![Code Coverage](https://codecov.io/gh/tomp332/gospray/settings/badge.svg)](https://codecov.io/gh/tomp332/gospray?branch=main)
 
