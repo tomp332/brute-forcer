@@ -2,7 +2,7 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/tomp332/golang-brute-forcer)](https://goreportcard.com/report/github.com/tomp332/brute-forcer)
 [![Build](https://github.com/your-username/golang-brute-forcer/actions/workflows/build.yml/badge.svg)](https://github.com/tomp332/brute-forcer/actions/workflows/build.yml)
-[![License](https://img.shields.io/github/license/your-username/golang-brute-forcer.svg)](https://github.com/tomp332/brute-forcer/main/LICENSE)
+[![License](https://img.shields.io/github/license/your-username/golang-brute-forcer.svg)](https://github.com/tomp332/brute-forcer/LICENSE)
 [![Code Coverage](https://codecov.io/gh/your-username/golang-brute-forcer/branch/main/graph/badge.svg)](https://codecov.io/gh/tomp332/brute-forcer)
 
 ![GoLang Brute Forcer](banner.png)
