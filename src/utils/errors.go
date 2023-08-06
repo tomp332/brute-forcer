@@ -2,7 +2,7 @@ package utils
 
 import (
 	"encoding/json"
-	"github.com/tomp332/bruteForcer/src/models"
+	"github.com/tomp332/gospray/src/models"
 )
 
 func BadRequestError(message string, err error) []byte {

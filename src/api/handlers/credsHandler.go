@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/tomp332/bruteForcer/src"
-	"github.com/tomp332/bruteForcer/src/crud"
-	"github.com/tomp332/bruteForcer/src/models"
-	"github.com/tomp332/bruteForcer/src/utils"
+	"github.com/tomp332/gospray/src"
+	"github.com/tomp332/gospray/src/crud"
+	"github.com/tomp332/gospray/src/models"
+	"github.com/tomp332/gospray/src/utils"
 	"log"
 	"net/http"
 )

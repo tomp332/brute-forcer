@@ -1,8 +1,8 @@
 package crud
 
 import (
-	"github.com/tomp332/bruteForcer/src"
-	"github.com/tomp332/bruteForcer/src/models"
+	"github.com/tomp332/gospray/src"
+	"github.com/tomp332/gospray/src/models"
 )
 
 type SlavesCrud struct{}

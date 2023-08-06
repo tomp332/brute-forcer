@@ -1,4 +1,4 @@
-module github.com/tomp332/bruteForcer
+module github.com/tomp332/gospray
 
 go 1.20
 

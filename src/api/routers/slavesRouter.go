@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/tomp332/bruteForcer/src/api/handlers"
+	"github.com/tomp332/gospray/src/api/handlers"
 )
 
 var SlaveRouter *echo.Group

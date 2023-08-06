@@ -2,7 +2,7 @@ package src
 
 import (
 	"fmt"
-	"github.com/tomp332/bruteForcer/src/models"
+	"github.com/tomp332/gospray/src/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )

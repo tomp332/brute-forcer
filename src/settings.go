@@ -4,7 +4,7 @@ import (
 	"github.com/caarlos0/env/v6"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
-	"github.com/tomp332/bruteForcer/src/models"
+	"github.com/tomp332/gospray/src/models"
 	"log"
 )
 
