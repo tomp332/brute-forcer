@@ -31,28 +31,36 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Build Go
+        run: |
+          curtag=${GITHUB_REF_NAME}
+          major_minor=$(echo "$curtag" | cut -d'.' -f1-2)
+          patch=$(echo "$curtag" | cut -d'.' -f3)
+          # avoid empty patch number
+          [ -n "$patch" ] && ((patch--)) || patch=".x"
+          prevtag="${major_minor}.${patch}"
+          echo "" > body.log
+          if git tag | grep $prevtag ; then
+          git log -q ${curtag}...${prevtag} --pretty="- %s" -q --no-color >> body.log
+          else
+          git log --pretty="- %s" -q --no-color >> body.log
+          fi
+          line_count=$(cat body.log | wc -l)
+          echo "curtag=$curtag" >> $GITHUB_OUTPUT
+          echo "prevtag=$prevtag" >> $GITHUB_OUTPUT
+          echo "line_count=$line_count" >> $GITHUB_OUTPUT
+      - uses: ncipollo/release-action@v1
         if: startsWith(matrix.goos, 'windows')
-        run: go build -o goBrute.exe
-      - name: Build Go
+        with:
+          name: ${{ env.GITHUB_REF_NAME }}
+          tag: ${{ env.GITHUB_REF_NAME }}
+          artifacts: "goBrute.exe"
+          bodyFile: "body.log"
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ncipollo/release-action@v1
         if: startsWith(matrix.goos, 'linux')
-        run: go build -o goBrute
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        if: startsWith(matrix.goos, 'windows')
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: goBrute.exe
-          asset_name: goBrute.exe
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: "New binary release version"
-      - name: Upload binaries to release
-        if: startsWith(matrix.goos, 'windows')
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: goBrute
-          asset_name: goBrute
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: "New binary release version"
+          name: ${{ env.GITHUB_REF_NAME }}
+          tag: ${{ env.GITHUB_REF_NAME }}
+          artifacts: "goBrute"
+          bodyFile: "body.log"
+          token: ${{ secrets.GITHUB_TOKEN }}
