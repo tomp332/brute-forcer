@@ -4,6 +4,7 @@ import (
 	"github.com/tomp332/bruteForcer/src"
 	"github.com/tomp332/bruteForcer/src/models"
 	"github.com/tomp332/bruteForcer/src/utils"
+	"log"
 )
 
 type ICredentialsCrud struct{}
@@ -12,19 +13,13 @@ var CredentialsCrud = &ICredentialsCrud{}
 
 // Get gets the credentials with the given id
 func (c *ICredentialsCrud) Get(limit, offset uint) ([]models.IReadCredentials, error) {
-	var objSlice []models.CredentialsDTO
-	err := src.MainDB.Scopes(NewPaginate(limit, offset).PaginatedResult).Find(&objSlice).Error
+	var fetchedCreds []models.CredentialsDTO
+	err := src.MainDB.Scopes(NewPaginate(limit, offset).PaginatedResult).Find(&fetchedCreds).Error
 	if err != nil {
 		return nil, err
 	}
-	result := make([]models.IReadCredentials, len(objSlice))
-	for i, obj := range objSlice {
-		err = utils.CopyStructFields(obj, &result[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return result, nil
+	return utils.TransformDTOCredentials(&fetchedCreds), nil
+
 }
 
 // Add adds the given credentials to the database
@@ -40,18 +35,12 @@ func (c *ICredentialsCrud) Add(creds []models.ICredentialsCreate) ([]models.IRea
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	addedCredentials := make([]models.IReadCredentials, len(credsModelSlice))
-	for i, obj := range credsModelSlice {
-		err := utils.CopyStructFields(obj, addedCredentials[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return addedCredentials, nil
+	log.Printf("Added new credentials to DB, count: %d", len(credsModelSlice))
+	return utils.TransformDTOCredentials(&credsModelSlice), nil
 }
 
 // Update updates the credentials with the given id
-func (c *ICredentialsCrud) Update(creds []*models.IUpdateCredentials) ([]models.CredentialsDTO, error) {
+func (c *ICredentialsCrud) Update(creds []*models.IUpdateCredentials) ([]models.IReadCredentials, error) {
 	updatedCredentials := make([]models.CredentialsDTO, len(creds))
 	for i, updateSchema := range creds {
 		updatedCredentials[i] = models.CredentialsDTO{
@@ -65,7 +54,8 @@ func (c *ICredentialsCrud) Update(creds []*models.IUpdateCredentials) ([]models.
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return updatedCredentials, nil
+	log.Printf("Updated credentials information with id %d", updatedCredentials[0].ID)
+	return utils.TransformDTOCredentials(&updatedCredentials), nil
 }
 
 // Delete deletes the credentials with the given id
@@ -74,5 +64,6 @@ func (c *ICredentialsCrud) Delete(id uint) error {
 	if result.Error != nil {
 		return result.Error
 	}
+	log.Printf("Deleted credentials with id %d", id)
 	return nil
 }

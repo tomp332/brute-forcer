@@ -61,6 +61,53 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "description": "Update credentials in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Creds"
+                ],
+                "summary": "Update credentials",
+                "parameters": [
+                    {
+                        "description": "ICredentialsCreate",
+                        "name": "credentials",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.IUpdateCredentials"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.IReadCredentials"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ServerError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ServerError"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Add credentials to the database",
                 "consumes": [
@@ -292,6 +339,9 @@ const docTemplate = `{
         "models.IReadCredentials": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
                 "hash": {
                     "type": "string"
                 },

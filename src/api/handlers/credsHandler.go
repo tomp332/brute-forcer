@@ -54,7 +54,7 @@ func AddCreds(c echo.Context) error {
 func GetCreds(c echo.Context) error {
 	paginationParams := new(crud.IPaginateParams)
 	err := c.Bind(paginationParams)
-	if paginationParams == nil {
+	if paginationParams.Limit == 0 {
 		// Specify default values for pagination
 		paginationParams.Limit = src.GlobalSettings.APISettings.PaginationDefaultLimit
 	}
@@ -81,6 +81,7 @@ func GetCreds(c echo.Context) error {
 // @Success 200 {array} models.IReadCredentials
 // @Failure 400 {object} models.ServerError
 // @Failure 500 {object} models.ServerError
+// @Router /creds [put]
 func UpdateCreds(c echo.Context) error {
 	var creds []*models.IUpdateCredentials
 	err := c.Bind(&creds)

@@ -12,5 +12,7 @@ type CredsRoute struct{}
 func (r CredsRoute) InitRouter() error {
 	CredsRouter.POST("", handlers.AddCreds)
 	CredsRouter.GET("", handlers.GetCreds)
+	CredsRouter.DELETE("", handlers.DeleteCreds)
+	CredsRouter.PUT("", handlers.UpdateCreds)
 	return nil
 }

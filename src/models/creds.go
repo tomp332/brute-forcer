@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type CredentialsBase struct {
 	Username string `json:"username" gorm:"uniqueIndex:idx_username_password"`
 	Password string `json:"password" gorm:"uniqueIndex:idx_username_password"`
@@ -25,6 +27,7 @@ type IUpdateCredentials struct {
 }
 
 type IReadCredentials struct {
-	ID uint `json:"id"`
+	ID        uint      `json:"id"`
+	CreatedAt time.Time `json:"createdAt"`
 	CredentialsBase
 }
