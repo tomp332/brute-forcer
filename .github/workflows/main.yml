@@ -70,7 +70,7 @@ jobs:
 
       # -------------Releases----------------
       - name: Build Go binary
-        run: go build -o goBrute-${{ matrix.config.os }}
+        run: go build -o goBrute-${{ steps.tag_version.outputs.new_tag }}
 
       # -------------Upload----------------
       - name: Upload release assets
