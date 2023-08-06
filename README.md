@@ -3,7 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/tomp332/gospray)](https://goreportcard.com/report/github.com/tomp332/gospray)
 [![Build](https://github.com/tomp332/golang-bruteForcer/actions/workflows/build.yml/badge.svg)](https://github.com/tomp332/gospray/actions/workflows/build.yml)
 [![License](https://img.shields.io/github/license/tomp332/gospray.svg)](https://github.com/tomp332/gospray/blob/main/LICENSE.md)
-[![Code Coverage](https://codecov.io/gh/tomp332/gospray/branch/main/graph/badge.svg)](https://codecov.io/gh/tomp332/gospray?branch=main)
+[![Code Coverage](https://codecov.io/gh/tomp332/gospray/branch/main/graph/badge.svg)](https://codecov.io/github/tomp332/gospray?branch=main)
 
 ![GoLang Brute Forcer](banner.png)
 
