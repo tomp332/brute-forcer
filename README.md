@@ -11,9 +11,9 @@
 
 ## Description
 
-GoLang Brute Forcer is a command-line tool that performs brute force attacks to test the security of passwords or keys.
-It is designed to help identify weak passwords and improve overall system security.
+`goBrut` is a powerful password brute forcer written in Go. It is designed to help security professionals and penetration testers test the strength of passwords and identify weak passwords in various scenarios.
 
+`goBrut` supports customizable character sets, password length, and hashing algorithms, making it versatile for various brute force attacks.
 
 ## Features
 
@@ -21,20 +21,20 @@ It is designed to help identify weak passwords and improve overall system securi
 - Parallel processing for faster brute-forcing.
 - Supports different hashing algorithms (MD5, SHA-256, etc.).
 - Customizable output format.
+- Configurable retry and timeout options for robustness.
+- Easy-to-use command-line interface.
 
 ## Installation
 
-### Pre-built binaries
+### Pre-built Binaries
 
-You can download pre-built binaries for your platform from
-the [Releases](https://github.com/your-username/golang-bruteForcer/releases) page. Extract the archive and add the
-binary to your PATH.
+Download pre-built binaries for your platform from the [Releases](https://github.com/your-username/goBrut/releases) page. Extract the archive and add the binary to your PATH.
 
-### Build from source
+### Build from Source
 
-To build from source, make sure you have Go (1.15+) installed and run the following commands:
+Make sure you have Go (1.15+) installed and run the following commands:
 
 ```bash
-$ git clone https://github.com/your-username/golang-bruteForcer.git
-$ cd golang-bruteForcer
+$ git clone https://github.com/your-username/goBrut.git
+$ cd goBrut
 $ go build
