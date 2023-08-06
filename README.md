@@ -1,15 +1,16 @@
 # GoLang Brute Forcer
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/your-username/golang-brute-forcer)](https://goreportcard.com/report/github.com/your-username/golang-brute-forcer)
-[![Build](https://github.com/your-username/golang-brute-forcer/actions/workflows/build.yml/badge.svg)](https://github.com/your-username/golang-brute-forcer/actions/workflows/build.yml)
-[![License](https://img.shields.io/github/license/your-username/golang-brute-forcer.svg)](https://github.com/your-username/golang-brute-forcer/blob/main/LICENSE)
-[![Code Coverage](https://codecov.io/gh/your-username/golang-brute-forcer/branch/main/graph/badge.svg)](https://codecov.io/gh/your-username/golang-brute-forcer)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tomp332/golang-brute-forcer)](https://goreportcard.com/report/github.com/tomp332/brute-forcer)
+[![Build](https://github.com/your-username/golang-brute-forcer/actions/workflows/build.yml/badge.svg)](https://github.com/tomp332/brute-forcer/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/your-username/golang-brute-forcer.svg)](https://github.com/tomp332/brute-forcer/blob/main/LICENSE)
+[![Code Coverage](https://codecov.io/gh/your-username/golang-brute-forcer/branch/main/graph/badge.svg)](https://codecov.io/gh/tomp332/brute-forcer)
 
 ![GoLang Brute Forcer](banner.png)
 
 ## Description
 
-GoLang Brute Forcer is a command-line tool that performs brute force attacks to test the security of passwords or keys. It is designed to help identify weak passwords and improve overall system security.
+GoLang Brute Forcer is a command-line tool that performs brute force attacks to test the security of passwords or keys.
+It is designed to help identify weak passwords and improve overall system security.
 
 ## Features
 
@@ -22,7 +23,9 @@ GoLang Brute Forcer is a command-line tool that performs brute force attacks to 
 
 ### Pre-built binaries
 
-You can download pre-built binaries for your platform from the [Releases](https://github.com/your-username/golang-brute-forcer/releases) page. Extract the archive and add the binary to your PATH.
+You can download pre-built binaries for your platform from
+the [Releases](https://github.com/your-username/golang-brute-forcer/releases) page. Extract the archive and add the
+binary to your PATH.
 
 ### Build from source
 
