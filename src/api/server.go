@@ -2,8 +2,9 @@ package api
 
 import (
 	"fmt"
+
 	"github.com/labstack/echo/v4"
-	"github.com/swaggo/echo-swagger"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"github.com/tomp332/gobrute/src"
 	"github.com/tomp332/gobrute/src/api/middlewares"
 	"github.com/tomp332/gobrute/src/api/routers"
@@ -20,6 +21,7 @@ func InitServer() {
 	MainServerObj.GET("/swagger/*", echoSwagger.WrapHandler)
 	v1ApiGroup := MainServerObj.Group("/api/v1")
 	routers.MainRouter = v1ApiGroup.Group("")
+	routers.BruteRouter = v1ApiGroup.Group("/brute")
 	routers.SlaveRouter = v1ApiGroup.Group("/slaves")
 	routers.CredsRouter = v1ApiGroup.Group("/creds")
 
@@ -28,15 +30,22 @@ func InitServer() {
 	if err != nil {
 		return
 	}
+	fmt.Printf("Successfully initialized Main Router")
+	err = routers.BruteRoute{}.InitRouter()
+	if err != nil {
+		return
+	}
+	fmt.Printf("Successfully initialized Main Router")
 	err = routers.CredsRoute{}.InitRouter()
 	if err != nil {
 		return
 	}
+	fmt.Printf("Successfully initialized Creds Router")
 	err = routers.SlaveRoute{}.InitRouter()
 	if err != nil {
 		return
 	}
-
+	fmt.Printf("Successfully initialized Slave Router")
 	// Start server
 	addr := fmt.Sprintf("%s:%d", src.GlobalSettings.ServerHost, src.GlobalSettings.ServerPort)
 	err = MainServerObj.Start(addr)
