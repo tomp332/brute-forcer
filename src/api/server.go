@@ -35,7 +35,7 @@ func InitServer() {
 	if err != nil {
 		return
 	}
-	fmt.Printf("Successfully initialized Main Router")
+	fmt.Printf("Successfully initialized Brute Router")
 	err = routers.CredsRoute{}.InitRouter()
 	if err != nil {
 		return

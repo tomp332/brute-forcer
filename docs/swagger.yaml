@@ -1,13 +1,5 @@
 basePath: /api/v1
 definitions:
-  gorm.DeletedAt:
-    properties:
-      time:
-        type: string
-      valid:
-        description: Valid is true if Time is not NULL
-        type: boolean
-    type: object
   models.Health:
     properties:
       id:
@@ -16,6 +8,15 @@ definitions:
         type: integer
       status:
         $ref: '#/definitions/models.ServiceStatus'
+    type: object
+  models.IBruteForceCreate:
+    properties:
+      algorithm:
+        type: string
+      hash:
+        type: string
+      numSlaves:
+        type: integer
     type: object
   models.ICredentialsCreate:
     properties:
@@ -72,7 +73,7 @@ definitions:
       createdAt:
         type: string
       deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
+        type: string
       id:
         type: integer
       ip:
@@ -90,6 +91,38 @@ info:
   title: Brute Forcer API
   version: "1.0"
 paths:
+  /brute:
+    post:
+      consumes:
+      - application/json
+      description: Start brute force operation
+      parameters:
+      - description: IBruteForceCreate
+        in: body
+        name: credentials
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.IBruteForceCreate'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.IBruteForceCreate'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ServerError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ServerError'
+      summary: Start a new brute force operation
+      tags:
+      - Brute Force
   /creds:
     delete:
       description: IDeleteParams credentials from the database

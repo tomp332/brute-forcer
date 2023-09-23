@@ -29,8 +29,7 @@ func LoadSettings() {
 	if err != nil {
 		log.Fatalf("unable to load .env file: %e", err)
 	}
-
-	cfg := MainSettings{} // 👈 new instance of `Config`
+	cfg := MainSettings{} // ✔️ new instance of `Config`
 	err = env.Parse(&cfg) // 👈 Parse environment variables into `Config`
 	if err != nil {
 		log.Fatalf("unable to parse ennvironment variables: %e", err)

@@ -4,6 +4,8 @@ import "time"
 
 type BruteForceBase struct {
 	Hash        string `json:"hash" gorm:"not null;uniqueIndex:idx_hash"`
+	PlainText   string `json:"plainText"`
+	Algorithm   string `json:"algorithm"`
 	NumOfSlaves int    `json:"numSlaves"`
 }
 
@@ -12,12 +14,14 @@ type BruteForceDTO struct {
 	BruteForceBase
 }
 
-func (CredentialsDTO) TableName() string {
+func (BruteForceDTO) TableName() string {
 	return "BruteForces"
 }
 
 type IBruteForceCreate struct {
-	BruteForceBase
+	Hash        string `json:"hash" gorm:"not null;uniqueIndex:idx_hash"`
+	Algorithm   string `json:"algorithm"`
+	NumOfSlaves int    `json:"numSlaves"`
 }
 
 type IBruteForceUpdate struct {

@@ -8,6 +8,55 @@
     "host": "localhost:3000",
     "basePath": "/api/v1",
     "paths": {
+        "/brute": {
+            "post": {
+                "description": "Start brute force operation",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Brute Force"
+                ],
+                "summary": "Start a new brute force operation",
+                "parameters": [
+                    {
+                        "description": "IBruteForceCreate",
+                        "name": "credentials",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.IBruteForceCreate"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.IBruteForceCreate"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ServerError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ServerError"
+                        }
+                    }
+                }
+            }
+        },
         "/creds": {
             "get": {
                 "description": "Get credentials from the database",
@@ -288,18 +337,6 @@
         }
     },
     "definitions": {
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
         "models.Health": {
             "type": "object",
             "properties": {
@@ -311,6 +348,20 @@
                 },
                 "status": {
                     "$ref": "#/definitions/models.ServiceStatus"
+                }
+            }
+        },
+        "models.IBruteForceCreate": {
+            "type": "object",
+            "properties": {
+                "algorithm": {
+                    "type": "string"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "numSlaves": {
+                    "type": "integer"
                 }
             }
         },
@@ -395,7 +446,7 @@
                     "type": "string"
                 },
                 "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
