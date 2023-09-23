@@ -18,6 +18,21 @@ definitions:
       numSlaves:
         type: integer
     type: object
+  models.IBruteForceRead:
+    properties:
+      algorithm:
+        type: string
+      createdAt:
+        type: string
+      hash:
+        type: string
+      id:
+        type: integer
+      numSlaves:
+        type: integer
+      plainText:
+        type: string
+    type: object
   models.ICredentialsCreate:
     properties:
       hash:
@@ -95,7 +110,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Start brute force operation
+      description: Start brute force task
       parameters:
       - description: IBruteForceCreate
         in: body
@@ -105,22 +120,24 @@ paths:
           items:
             $ref: '#/definitions/models.IBruteForceCreate'
           type: array
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.IBruteForceCreate'
+              $ref: '#/definitions/models.IBruteForceRead'
             type: array
         "400":
-          description: Bad Request
+          description: Invalid request
           schema:
-            $ref: '#/definitions/models.ServerError'
+            type: string
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
-            $ref: '#/definitions/models.ServerError'
-      summary: Start a new brute force operation
+            type: string
+      summary: Start new brute force action
       tags:
       - Brute Force
   /creds:

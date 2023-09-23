@@ -56,10 +56,17 @@ func ExecuteBrute(bruteForceTasks []models.IBruteForceCreate) (string, error) {
 		log.Printf("Handeling tasks of type %s", algorithm)
 		obj := plugins.EncodingPluginsMap[algorithm]
 		for _, bruteTask := range tasks {
-			_, err := obj.Decode(bruteTask.Hash)
-			if err != nil {
-				return "", err
-			}
+			bruteTask := bruteTask
+			go func() {
+				decoded, err := obj.Decode(bruteTask.Hash)
+				log.Printf("Hash: %s, Decoding: %s", bruteTask.Hash, decoded)
+				if err != nil {
+					log.Printf("Error decoding hash: %s. Error: %s", bruteTask.Hash, err)
+				} else {
+					// Add decoded hash to DB
+
+				}
+			}()
 		}
 	}
 	return "", nil

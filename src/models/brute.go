@@ -3,7 +3,7 @@ package models
 import "time"
 
 type BruteForceBase struct {
-	Hash        string `json:"hash" gorm:"not null;uniqueIndex:idx_hash"`
+	Hash        string `json:"hash" gorm:"not null;uniqueIndex:idx_password_hash"`
 	PlainText   string `json:"plainText"`
 	Algorithm   string `json:"algorithm"`
 	NumOfSlaves int    `json:"numSlaves"`

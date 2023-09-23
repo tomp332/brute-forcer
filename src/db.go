@@ -17,11 +17,15 @@ func InitDB() {
 	}
 	err = MainDB.AutoMigrate(&models.SlaveDTO{})
 	if err != nil {
-		panic(fmt.Sprintf("Unable to migrate MainDB table: %s", err.Error()))
+		panic(fmt.Sprintf("Unable to migrate Slaves table: %s", err.Error()))
 	}
 	err = MainDB.AutoMigrate(&models.CredentialsDTO{})
 	if err != nil {
-		panic(fmt.Sprintf("Unable to migrate MainDB table: %s", err.Error()))
+		panic(fmt.Sprintf("Unable to migrate Credentials table: %s", err.Error()))
+	}
+	err = MainDB.AutoMigrate(&models.BruteForceDTO{})
+	if err != nil {
+		panic(fmt.Sprintf("Unable to migrate Brute Force table: %s", err.Error()))
 	}
 	fmt.Println("Successfully connected to database")
 }

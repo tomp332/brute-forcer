@@ -10,15 +10,16 @@ import (
 	"github.com/tomp332/gobrute/src/utils"
 )
 
-// AddCreds godoc
-// @Summary Start a new brute force operation
-// @Description Start brute force operation
+// StartBruteForce godoc (POST /brute)
+// @Summary Start new brute force action
+// @Description Start brute force task
 // @Tags Brute Force
 // @Accept json
+// @Produce json
 // @Param credentials body []models.IBruteForceCreate true "IBruteForceCreate"
-// @Success 200 {array} models.IBruteForceCreate
-// @Failure 400 {object} models.ServerError
-// @Failure 500 {object} models.ServerError
+// @Success 200 {array} models.IBruteForceRead
+// @Failure 400 {string} string "Invalid request"
+// @Failure 500 {string} string "Internal server error"
 // @Router /brute [post]
 func StartBruteForce(c echo.Context) error {
 	var bruteForceTask []models.IBruteForceCreate

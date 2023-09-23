@@ -17,14 +17,17 @@ const docTemplate = `{
     "paths": {
         "/brute": {
             "post": {
-                "description": "Start brute force operation",
+                "description": "Start brute force task",
                 "consumes": [
+                    "application/json"
+                ],
+                "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Brute Force"
                 ],
-                "summary": "Start a new brute force operation",
+                "summary": "Start new brute force action",
                 "parameters": [
                     {
                         "description": "IBruteForceCreate",
@@ -45,20 +48,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IBruteForceCreate"
+                                "$ref": "#/definitions/models.IBruteForceRead"
                             }
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Invalid request",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "type": "string"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "type": "string"
                         }
                     }
                 }
@@ -369,6 +372,29 @@ const docTemplate = `{
                 },
                 "numSlaves": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.IBruteForceRead": {
+            "type": "object",
+            "properties": {
+                "algorithm": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "numSlaves": {
+                    "type": "integer"
+                },
+                "plainText": {
+                    "type": "string"
                 }
             }
         },
