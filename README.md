@@ -9,9 +9,11 @@
 
 ## Description
 
-`goBrut` is a powerful password brute forcer written in Go. It is designed to help security professionals and penetration testers test the strength of passwords and identify weak passwords in various scenarios.
+`goBrut` is a powerful password brute forcer written in Go. It is designed to help security professionals and
+penetration testers test the strength of passwords and identify weak passwords in various scenarios.
 
-`goBrut` supports customizable character sets, password length, and hashing algorithms, making it versatile for various brute force attacks.
+`goBrut` supports customizable character sets, password length, and hashing algorithms, making it versatile for various
+brute force attacks.
 
 ## Features
 
@@ -26,7 +28,8 @@
 
 ### Pre-built Binaries
 
-Download pre-built binaries for your platform from the [Releases](https://github.com/tomp332/gobrut/releases) page. Extract the archive and add the binary to your PATH.
+Download pre-built binaries for your platform from the [Releases](https://github.com/tomp332/gobrut/releases) page.
+Extract the archive and add the binary to your PATH.
 
 ### Build from Source
 

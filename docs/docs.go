@@ -37,7 +37,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IBruteForceCreate"
+                                "$ref": "#/definitions/managerTypes.IBruteForceCreate"
                             }
                         }
                     }
@@ -48,7 +48,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IBruteForceRead"
+                                "$ref": "#/definitions/managerTypes.IBruteForceRead"
                             }
                         }
                     },
@@ -94,20 +94,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IReadCredentials"
+                                "$ref": "#/definitions/managerTypes.IReadCredentials"
                             }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/managerTypes.ServerError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/managerTypes.ServerError"
                         }
                     }
                 }
@@ -130,7 +130,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IUpdateCredentials"
+                                "$ref": "#/definitions/managerTypes.IUpdateCredentials"
                             }
                         }
                     }
@@ -141,20 +141,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.IReadCredentials"
+                                "$ref": "#/definitions/managerTypes.IReadCredentials"
                             }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/managerTypes.ServerError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/managerTypes.ServerError"
                         }
                     }
                 }
@@ -177,7 +177,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.ICredentialsCreate"
+                                "$ref": "#/definitions/managerTypes.ICredentialsCreate"
                             }
                         }
                     }
@@ -188,20 +188,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.ICredentialsCreate"
+                                "$ref": "#/definitions/managerTypes.ICredentialsCreate"
                             }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/managerTypes.ServerError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/managerTypes.ServerError"
                         }
                     }
                 }
@@ -228,13 +228,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/managerTypes.ServerError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ServerError"
+                            "$ref": "#/definitions/managerTypes.ServerError"
                         }
                     }
                 }
@@ -254,7 +254,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Health"
+                            "$ref": "#/definitions/managerTypes.Health"
                         }
                     }
                 }
@@ -290,7 +290,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.SlaveDTO"
+                                "$ref": "#/definitions/managerTypes.SlaveDTO"
                             }
                         }
                     },
@@ -326,7 +326,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.SlaveDTO"
+                                "$ref": "#/definitions/managerTypes.SlaveDTO"
                             }
                         }
                     },
@@ -347,7 +347,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Health": {
+        "managerTypes.Health": {
             "type": "object",
             "properties": {
                 "id": {
@@ -357,11 +357,11 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "status": {
-                    "$ref": "#/definitions/models.ServiceStatus"
+                    "$ref": "#/definitions/managerTypes.ServiceStatus"
                 }
             }
         },
-        "models.IBruteForceCreate": {
+        "managerTypes.IBruteForceCreate": {
             "type": "object",
             "properties": {
                 "algorithm": {
@@ -375,7 +375,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.IBruteForceRead": {
+        "managerTypes.IBruteForceRead": {
             "type": "object",
             "properties": {
                 "algorithm": {
@@ -398,7 +398,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ICredentialsCreate": {
+        "managerTypes.ICredentialsCreate": {
             "type": "object",
             "properties": {
                 "hash": {
@@ -412,7 +412,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.IReadCredentials": {
+        "managerTypes.IReadCredentials": {
             "type": "object",
             "properties": {
                 "createdAt": {
@@ -432,7 +432,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.IUpdateCredentials": {
+        "managerTypes.IUpdateCredentials": {
             "type": "object",
             "properties": {
                 "hash": {
@@ -449,7 +449,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ServerError": {
+        "managerTypes.ServerError": {
             "type": "object",
             "properties": {
                 "error": {
@@ -457,7 +457,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ServiceStatus": {
+        "managerTypes.ServiceStatus": {
             "type": "integer",
             "enum": [
                 0,
@@ -472,7 +472,7 @@ const docTemplate = `{
                 "ShuttingDown"
             ]
         },
-        "models.SlaveDTO": {
+        "managerTypes.SlaveDTO": {
             "type": "object",
             "properties": {
                 "createdAt": {
