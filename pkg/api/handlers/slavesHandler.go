@@ -3,7 +3,7 @@ package handlers
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/tomp332/gobrute/pkg/crud"
-	"github.com/tomp332/gobrute/pkg/types"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 	"github.com/tomp332/gobrute/pkg/utils"
 
 	"log"
@@ -16,12 +16,12 @@ import (
 // @Tags Slaves
 // @Accept json
 // @Produce json
-// @Success 200 {array} managerTypes.SlaveDTO
+// @Success 200 {array} internalTypes.SlaveDTO
 // @Failure 400 {string} string "Invalid request"
 // @Failure 500 {string} string "Internal server error"
 // @Router /slaves [post]
 func AddSlaves(c echo.Context) error {
-	var slaves []*types.SlaveDTO
+	var slaves []*internalTypes.SlaveDTO
 	err := c.Bind(&slaves)
 	if err != nil || slaves == nil {
 		log.Printf("Error binding slaves struct")
@@ -42,7 +42,7 @@ func AddSlaves(c echo.Context) error {
 // @Produce json
 // @Param limit query int false "Limit the number of results"
 // @Param page query int false "Offset number"
-// @Success 200 {array} managerTypes.SlaveDTO
+// @Success 200 {array} internalTypes.SlaveDTO
 // @Failure 400 {string} string "Invalid request"
 // @Failure 500 {string} string "Internal server error"
 // @Router /slaves [get]

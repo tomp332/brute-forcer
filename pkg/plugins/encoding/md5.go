@@ -3,15 +3,15 @@ package encoding
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"github.com/tomp332/gobrute/pkg/types"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 )
 
 type Md5Plugin struct {
-	types.Plugin
+	internalTypes.Plugin
 }
 
 var Md5PluginObj = &Md5Plugin{
-	types.Plugin{
+	internalTypes.Plugin{
 		Name: "MD5",
 	},
 }

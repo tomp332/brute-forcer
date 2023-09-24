@@ -12,7 +12,7 @@ import (
 // @Description API HealthCheck
 // @Tags Health Check
 // @Produce json
-// @Success 200 {object} managerTypes.Health
+// @Success 200 {object} internalTypes.Health
 // @Router /health [get]
 func HealthCheck(c echo.Context) error {
 	health, err := json.Marshal(&pkg.ServiceHealth)

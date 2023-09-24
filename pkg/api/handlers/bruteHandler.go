@@ -3,7 +3,7 @@ package handlers
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/tomp332/gobrute/pkg/crud"
-	"github.com/tomp332/gobrute/pkg/types"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 	"github.com/tomp332/gobrute/pkg/utils"
 
 	"log"
@@ -16,13 +16,13 @@ import (
 // @Tags Brute Force
 // @Accept json
 // @Produce json
-// @Param credentials body []managerTypes.IBruteForceCreate true "IBruteForceCreate"
-// @Success 200 {array} managerTypes.IBruteForceRead
+// @Param credentials body []internalTypes.IBruteForceCreate true "IBruteForceCreate"
+// @Success 200 {array} internalTypes.IBruteForceRead
 // @Failure 400 {string} string "Invalid request"
 // @Failure 500 {string} string "Internal server error"
 // @Router /brute [post]
 func StartBruteForce(c echo.Context) error {
-	var bruteForceTask []types.IBruteForceCreate
+	var bruteForceTask []internalTypes.IBruteForceCreate
 	err := c.Bind(&bruteForceTask)
 	if err != nil || bruteForceTask == nil {
 		log.Printf("Error binding creds struct")

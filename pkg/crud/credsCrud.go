@@ -1,8 +1,9 @@
 package crud
 
 import (
-	"github.com/tomp332/gobrute/cmd/manager/managerTypes"
-	"github.com/tomp332/gobrute/cmd/manager/utils"
+	"github.com/tomp332/gobrute/pkg"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
+	"github.com/tomp332/gobrute/pkg/utils"
 	"log"
 )
 
@@ -11,9 +12,9 @@ type ICredentialsCrud struct{}
 var CredentialsCrud = &ICredentialsCrud{}
 
 // Get gets the credentials with the given id
-func (c *ICredentialsCrud) Get(limit, offset uint) ([]managerTypes.IReadCredentials, error) {
-	var fetchedCreds []managerTypes.CredentialsDTO
-	err := manager.MainDB.Scopes(NewPaginate(limit, offset).PaginatedResult).Find(&fetchedCreds).Error
+func (c *ICredentialsCrud) Get(limit, offset uint) ([]internalTypes.IReadCredentials, error) {
+	var fetchedCreds []internalTypes.CredentialsDTO
+	err := pkg.MainDB.Scopes(NewPaginate(limit, offset).PaginatedResult).Find(&fetchedCreds).Error
 	if err != nil {
 		return nil, err
 	}
@@ -22,15 +23,15 @@ func (c *ICredentialsCrud) Get(limit, offset uint) ([]managerTypes.IReadCredenti
 }
 
 // Add adds the given credentials to the database
-func (c *ICredentialsCrud) Add(creds []managerTypes.ICredentialsCreate) ([]managerTypes.IReadCredentials, error) {
-	credsModelSlice := make([]managerTypes.CredentialsDTO, len(creds))
+func (c *ICredentialsCrud) Add(creds []internalTypes.ICredentialsCreate) ([]internalTypes.IReadCredentials, error) {
+	credsModelSlice := make([]internalTypes.CredentialsDTO, len(creds))
 	for i, credsBase := range creds {
 		err := utils.CopyStructFields(credsBase, &credsModelSlice[i])
 		if err != nil {
 			return nil, err
 		}
 	}
-	result := manager.MainDB.Create(credsModelSlice)
+	result := pkg.MainDB.Create(credsModelSlice)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -39,17 +40,17 @@ func (c *ICredentialsCrud) Add(creds []managerTypes.ICredentialsCreate) ([]manag
 }
 
 // Update updates the credentials with the given id
-func (c *ICredentialsCrud) Update(creds []*managerTypes.IUpdateCredentials) ([]managerTypes.IReadCredentials, error) {
-	updatedCredentials := make([]managerTypes.CredentialsDTO, len(creds))
+func (c *ICredentialsCrud) Update(creds []*internalTypes.IUpdateCredentials) ([]internalTypes.IReadCredentials, error) {
+	updatedCredentials := make([]internalTypes.CredentialsDTO, len(creds))
 	for i, updateSchema := range creds {
-		updatedCredentials[i] = managerTypes.CredentialsDTO{
-			CustomORMModel: managerTypes.CustomORMModel{
+		updatedCredentials[i] = internalTypes.CredentialsDTO{
+			CustomORMModel: internalTypes.CustomORMModel{
 				ID: updateSchema.ID,
 			},
 			CredentialsBase: updateSchema.CredentialsBase,
 		}
 	}
-	result := manager.MainDB.Save(updatedCredentials)
+	result := pkg.MainDB.Save(updatedCredentials)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -59,7 +60,7 @@ func (c *ICredentialsCrud) Update(creds []*managerTypes.IUpdateCredentials) ([]m
 
 // Delete deletes the credentials with the given id
 func (c *ICredentialsCrud) Delete(id uint) error {
-	result := manager.MainDB.Delete(&managerTypes.CredentialsDTO{}, id)
+	result := pkg.MainDB.Delete(&internalTypes.CredentialsDTO{}, id)
 	if result.Error != nil {
 		return result.Error
 	}

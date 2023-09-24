@@ -1,14 +1,14 @@
 package utils
 
 import (
-	"github.com/tomp332/gobrute/pkg/types"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 )
 
 // TransformDTOBruteForce converts a slice of BruteForceDTO to a slice of IBruteForceRead
-func TransformDTOBruteForce(bruteTasksToSlice *[]types.BruteForceDTO) []types.IBruteForceRead {
-	readBruteTasks := make([]types.IBruteForceRead, len(*bruteTasksToSlice))
+func TransformDTOBruteForce(bruteTasksToSlice *[]internalTypes.BruteForceDTO) []internalTypes.IBruteForceRead {
+	readBruteTasks := make([]internalTypes.IBruteForceRead, len(*bruteTasksToSlice))
 	for i, obj := range *bruteTasksToSlice {
-		readBruteTasks[i] = types.IBruteForceRead{
+		readBruteTasks[i] = internalTypes.IBruteForceRead{
 			BruteForceBase: obj.BruteForceBase,
 			ID:             obj.CustomORMModel.ID,
 			CreatedAt:      obj.CustomORMModel.CreatedAt,

@@ -2,15 +2,15 @@ package encoding
 
 import (
 	"encoding/base64"
-	"github.com/tomp332/gobrute/pkg/types"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 )
 
 type Base64Plugin struct {
-	types.Plugin
+	internalTypes.Plugin
 }
 
 var Base64PluginObj = &Base64Plugin{
-	types.Plugin{
+	internalTypes.Plugin{
 		Name: "BASE64",
 	},
 }

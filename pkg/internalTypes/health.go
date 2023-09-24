@@ -1,4 +1,4 @@
-package types
+package internalTypes
 
 type ServiceStatus uint8
 

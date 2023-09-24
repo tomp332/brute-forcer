@@ -2,7 +2,7 @@ package pkg
 
 import (
 	"fmt"
-	"github.com/tomp332/gobrute/pkg/types"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -15,15 +15,15 @@ func InitDB() {
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect database: %s", err.Error()))
 	}
-	err = MainDB.AutoMigrate(&types.SlaveDTO{})
+	err = MainDB.AutoMigrate(&internalTypes.SlaveDTO{})
 	if err != nil {
 		panic(fmt.Sprintf("Unable to migrate Slaves table: %s", err.Error()))
 	}
-	err = MainDB.AutoMigrate(&types.CredentialsDTO{})
+	err = MainDB.AutoMigrate(&internalTypes.CredentialsDTO{})
 	if err != nil {
 		panic(fmt.Sprintf("Unable to migrate Credentials table: %s", err.Error()))
 	}
-	err = MainDB.AutoMigrate(&types.BruteForceDTO{})
+	err = MainDB.AutoMigrate(&internalTypes.BruteForceDTO{})
 	if err != nil {
 		panic(fmt.Sprintf("Unable to migrate Brute Force table: %s", err.Error()))
 	}

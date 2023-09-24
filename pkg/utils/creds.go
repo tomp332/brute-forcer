@@ -1,14 +1,14 @@
 package utils
 
 import (
-	"github.com/tomp332/gobrute/pkg/types"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 )
 
 // TransformDTOCredentials converts a slice of CredentialsDTO to a slice of IReadCredentials
-func TransformDTOCredentials(credsDtoSlice *[]types.CredentialsDTO) []types.IReadCredentials {
-	readCredentials := make([]types.IReadCredentials, len(*credsDtoSlice))
+func TransformDTOCredentials(credsDtoSlice *[]internalTypes.CredentialsDTO) []internalTypes.IReadCredentials {
+	readCredentials := make([]internalTypes.IReadCredentials, len(*credsDtoSlice))
 	for i, obj := range *credsDtoSlice {
-		readCredentials[i] = types.IReadCredentials{
+		readCredentials[i] = internalTypes.IReadCredentials{
 			CredentialsBase: obj.CredentialsBase,
 			ID:              obj.CustomORMModel.ID,
 			CreatedAt:       obj.CustomORMModel.CreatedAt,

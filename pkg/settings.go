@@ -4,12 +4,12 @@ import (
 	"github.com/caarlos0/env/v6"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
-	"github.com/tomp332/gobrute/pkg/types"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 	"log"
 )
 
 var GlobalSettings *MainSettings
-var ServiceHealth *types.Health
+var ServiceHealth *internalTypes.Health
 
 type APISettings struct {
 	PaginationDefaultLimit uint `env:"PAGINATION_DEFAULT_LIMIT" envDefault:"50"`
@@ -37,9 +37,9 @@ func LoadSettings() {
 	log.Printf("Settings loaded successfully: %+v\n", cfg)
 	GlobalSettings = &cfg
 	// Initialize the service health
-	ServiceHealth = &types.Health{
+	ServiceHealth = &internalTypes.Health{
 		ID:     uuid.New().String(),
-		Status: types.PENDING,
+		Status: internalTypes.PENDING,
 		Port:   GlobalSettings.ServerPort,
 	}
 }

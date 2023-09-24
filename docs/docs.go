@@ -37,7 +37,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.IBruteForceCreate"
+                                "$ref": "#/definitions/internalTypes.IBruteForceCreate"
                             }
                         }
                     }
@@ -48,7 +48,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.IBruteForceRead"
+                                "$ref": "#/definitions/internalTypes.IBruteForceRead"
                             }
                         }
                     },
@@ -94,20 +94,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.IReadCredentials"
+                                "$ref": "#/definitions/internalTypes.IReadCredentials"
                             }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.ServerError"
+                            "$ref": "#/definitions/internalTypes.ServerError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.ServerError"
+                            "$ref": "#/definitions/internalTypes.ServerError"
                         }
                     }
                 }
@@ -130,7 +130,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.IUpdateCredentials"
+                                "$ref": "#/definitions/internalTypes.IUpdateCredentials"
                             }
                         }
                     }
@@ -141,20 +141,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.IReadCredentials"
+                                "$ref": "#/definitions/internalTypes.IReadCredentials"
                             }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.ServerError"
+                            "$ref": "#/definitions/internalTypes.ServerError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.ServerError"
+                            "$ref": "#/definitions/internalTypes.ServerError"
                         }
                     }
                 }
@@ -177,7 +177,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.ICredentialsCreate"
+                                "$ref": "#/definitions/internalTypes.ICredentialsCreate"
                             }
                         }
                     }
@@ -188,20 +188,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.ICredentialsCreate"
+                                "$ref": "#/definitions/internalTypes.ICredentialsCreate"
                             }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.ServerError"
+                            "$ref": "#/definitions/internalTypes.ServerError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.ServerError"
+                            "$ref": "#/definitions/internalTypes.ServerError"
                         }
                     }
                 }
@@ -228,13 +228,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.ServerError"
+                            "$ref": "#/definitions/internalTypes.ServerError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.ServerError"
+                            "$ref": "#/definitions/internalTypes.ServerError"
                         }
                     }
                 }
@@ -254,7 +254,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/managerTypes.Health"
+                            "$ref": "#/definitions/internalTypes.Health"
                         }
                     }
                 }
@@ -290,7 +290,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.SlaveDTO"
+                                "$ref": "#/definitions/internalTypes.SlaveDTO"
                             }
                         }
                     },
@@ -326,7 +326,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/managerTypes.SlaveDTO"
+                                "$ref": "#/definitions/internalTypes.SlaveDTO"
                             }
                         }
                     },
@@ -347,7 +347,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "managerTypes.Health": {
+        "internalTypes.Health": {
             "type": "object",
             "properties": {
                 "id": {
@@ -357,11 +357,11 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "status": {
-                    "$ref": "#/definitions/managerTypes.ServiceStatus"
+                    "$ref": "#/definitions/internalTypes.ServiceStatus"
                 }
             }
         },
-        "managerTypes.IBruteForceCreate": {
+        "internalTypes.IBruteForceCreate": {
             "type": "object",
             "properties": {
                 "algorithm": {
@@ -375,7 +375,7 @@ const docTemplate = `{
                 }
             }
         },
-        "managerTypes.IBruteForceRead": {
+        "internalTypes.IBruteForceRead": {
             "type": "object",
             "properties": {
                 "algorithm": {
@@ -398,7 +398,7 @@ const docTemplate = `{
                 }
             }
         },
-        "managerTypes.ICredentialsCreate": {
+        "internalTypes.ICredentialsCreate": {
             "type": "object",
             "properties": {
                 "hash": {
@@ -412,7 +412,7 @@ const docTemplate = `{
                 }
             }
         },
-        "managerTypes.IReadCredentials": {
+        "internalTypes.IReadCredentials": {
             "type": "object",
             "properties": {
                 "createdAt": {
@@ -432,7 +432,7 @@ const docTemplate = `{
                 }
             }
         },
-        "managerTypes.IUpdateCredentials": {
+        "internalTypes.IUpdateCredentials": {
             "type": "object",
             "properties": {
                 "hash": {
@@ -449,7 +449,7 @@ const docTemplate = `{
                 }
             }
         },
-        "managerTypes.ServerError": {
+        "internalTypes.ServerError": {
             "type": "object",
             "properties": {
                 "error": {
@@ -457,7 +457,7 @@ const docTemplate = `{
                 }
             }
         },
-        "managerTypes.ServiceStatus": {
+        "internalTypes.ServiceStatus": {
             "type": "integer",
             "enum": [
                 0,
@@ -472,7 +472,7 @@ const docTemplate = `{
                 "ShuttingDown"
             ]
         },
-        "managerTypes.SlaveDTO": {
+        "internalTypes.SlaveDTO": {
             "type": "object",
             "properties": {
                 "createdAt": {

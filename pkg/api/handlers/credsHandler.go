@@ -2,9 +2,11 @@ package handlers
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/tomp332/gobrute/cmd/manager/crud"
-	"github.com/tomp332/gobrute/cmd/manager/managerTypes"
-	"github.com/tomp332/gobrute/cmd/manager/utils"
+	"github.com/tomp332/gobrute/pkg/crud"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
+	"github.com/tomp332/gobrute/pkg/utils"
+
+	"github.com/tomp332/gobrute/pkg"
 
 	"log"
 	"net/http"
@@ -15,13 +17,13 @@ import (
 // @Description Add credentials to the database
 // @Tags Creds
 // @Accept json
-// @Param credentials body []managerTypes.ICredentialsCreate true "ICredentialsCreate"
-// @Success 200 {array} managerTypes.ICredentialsCreate
-// @Failure 400 {object} managerTypes.ServerError
-// @Failure 500 {object} managerTypes.ServerError
+// @Param credentials body []internalTypes.ICredentialsCreate true "ICredentialsCreate"
+// @Success 200 {array} internalTypes.ICredentialsCreate
+// @Failure 400 {object} internalTypes.ServerError
+// @Failure 500 {object} internalTypes.ServerError
 // @Router /creds [post]
 func AddCreds(c echo.Context) error {
-	var creds []managerTypes.ICredentialsCreate
+	var creds []internalTypes.ICredentialsCreate
 	err := c.Bind(&creds)
 	if err != nil || creds == nil {
 		log.Printf("Error binding creds struct")
@@ -47,16 +49,16 @@ func AddCreds(c echo.Context) error {
 // @Tags Creds
 // @Param limit query int false "Limit the number of results"
 // @Param page query int false "Offset number"
-// @Success 200 {array} managerTypes.IReadCredentials
-// @Failure 400 {object} managerTypes.ServerError
-// @Failure 500 {object} managerTypes.ServerError
+// @Success 200 {array} internalTypes.IReadCredentials
+// @Failure 400 {object} internalTypes.ServerError
+// @Failure 500 {object} internalTypes.ServerError
 // @Router /creds [get]
 func GetCreds(c echo.Context) error {
 	paginationParams := new(crud.IPaginateParams)
 	err := c.Bind(paginationParams)
 	if paginationParams.Limit == 0 {
 		// Specify default values for pagination
-		paginationParams.Limit = manager.GlobalSettings.APISettings.PaginationDefaultLimit
+		paginationParams.Limit = pkg.GlobalSettings.APISettings.PaginationDefaultLimit
 	}
 	if err != nil || paginationParams == nil {
 		log.Printf("Error binding pagination struct")
@@ -77,13 +79,13 @@ func GetCreds(c echo.Context) error {
 // @Description Update credentials in the database
 // @Tags Creds
 // @Accept json
-// @Param credentials body []managerTypes.IUpdateCredentials true "ICredentialsCreate"
-// @Success 200 {array} managerTypes.IReadCredentials
-// @Failure 400 {object} managerTypes.ServerError
-// @Failure 500 {object} managerTypes.ServerError
+// @Param credentials body []internalTypes.IUpdateCredentials true "ICredentialsCreate"
+// @Success 200 {array} internalTypes.IReadCredentials
+// @Failure 400 {object} internalTypes.ServerError
+// @Failure 500 {object} internalTypes.ServerError
 // @Router /creds [put]
 func UpdateCreds(c echo.Context) error {
-	var creds []*managerTypes.IUpdateCredentials
+	var creds []*internalTypes.IUpdateCredentials
 	err := c.Bind(&creds)
 	if err != nil || creds == nil {
 		log.Printf("Error binding credentials struct")
@@ -104,8 +106,8 @@ func UpdateCreds(c echo.Context) error {
 // @Tags Creds
 // @Param id query string true "ID of the credentials to delete"
 // @Success 200
-// @Failure 400 {object} managerTypes.ServerError
-// @Failure 500 {object} managerTypes.ServerError
+// @Failure 400 {object} internalTypes.ServerError
+// @Failure 500 {object} internalTypes.ServerError
 // @Router /creds [delete]
 func DeleteCreds(c echo.Context) error {
 	deleteParams := new(crud.IDeleteParams)

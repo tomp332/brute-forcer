@@ -1,4 +1,4 @@
-package types
+package internalTypes
 
 import (
 	"time"

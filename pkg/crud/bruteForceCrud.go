@@ -1,9 +1,10 @@
 package crud
 
 import (
-	"github.com/tomp332/gobrute/cmd/cli/plugins"
-	"github.com/tomp332/gobrute/cmd/manager/managerTypes"
-	"github.com/tomp332/gobrute/cmd/manager/utils"
+	"github.com/tomp332/gobrute/pkg"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
+	"github.com/tomp332/gobrute/pkg/plugins"
+	"github.com/tomp332/gobrute/pkg/utils"
 	"log"
 )
 
@@ -12,9 +13,9 @@ type IBruteForceCrud struct{}
 var BruteForceCrud = &IBruteForceCrud{}
 
 // Get gets the credentials with the given id
-func (c *IBruteForceCrud) Get(limit, offset uint) ([]managerTypes.IBruteForceRead, error) {
-	var fetchedTask []managerTypes.BruteForceDTO
-	err := manager.MainDB.Scopes(NewPaginate(limit, offset).PaginatedResult).Find(&fetchedTask).Error
+func (c *IBruteForceCrud) Get(limit, offset uint) ([]internalTypes.IBruteForceRead, error) {
+	var fetchedTask []internalTypes.BruteForceDTO
+	err := pkg.MainDB.Scopes(NewPaginate(limit, offset).PaginatedResult).Find(&fetchedTask).Error
 	if err != nil {
 		return nil, err
 	}
@@ -22,15 +23,15 @@ func (c *IBruteForceCrud) Get(limit, offset uint) ([]managerTypes.IBruteForceRea
 }
 
 // Add adds the given credentials to the database
-func (c *IBruteForceCrud) Add(bruteForceTasks []managerTypes.IBruteForceCreate) ([]managerTypes.IBruteForceRead, error) {
-	bruteTasksSlice := make([]managerTypes.BruteForceDTO, len(bruteForceTasks))
+func (c *IBruteForceCrud) Add(bruteForceTasks []internalTypes.IBruteForceCreate) ([]internalTypes.IBruteForceRead, error) {
+	bruteTasksSlice := make([]internalTypes.BruteForceDTO, len(bruteForceTasks))
 	for i, bruteTask := range bruteForceTasks {
 		err := utils.CopyStructFields(bruteTask, &bruteTasksSlice[i])
 		if err != nil {
 			return nil, err
 		}
 	}
-	result := manager.MainDB.Create(bruteTasksSlice)
+	result := pkg.MainDB.Create(bruteTasksSlice)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -44,9 +45,9 @@ func (c *IBruteForceCrud) Add(bruteForceTasks []managerTypes.IBruteForceCreate) 
 	return utils.TransformDTOBruteForce(&bruteTasksSlice), nil
 }
 
-func ExecuteBrute(bruteForceTasks []managerTypes.IBruteForceCreate) (string, error) {
+func ExecuteBrute(bruteForceTasks []internalTypes.IBruteForceCreate) (string, error) {
 	// Create a map to store the split slices.
-	splitTasksByAlgo := make(map[string][]managerTypes.IBruteForceCreate)
+	splitTasksByAlgo := make(map[string][]internalTypes.IBruteForceCreate)
 	// Iterate through the sorted slice and split by "Algorithm".
 	for _, task := range bruteForceTasks {
 		splitTasksByAlgo[task.Algorithm] = append(splitTasksByAlgo[task.Algorithm], task)

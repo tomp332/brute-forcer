@@ -1,4 +1,4 @@
-package types
+package internalTypes
 
 type Slave struct {
 	Name string `json:"name"`
