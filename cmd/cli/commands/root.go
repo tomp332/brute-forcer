@@ -1,15 +1,18 @@
 package commands
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
+	"os"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "gobrute-cli",
-	Short: "gobrute-cli is a CLI tool for gobrute",
-	Long:  `gobrute-cli is a CLI tool for gobrute. It is a tool for brute forcing`,
+	Use:   "gobrute",
+	Short: "A brief description of your application",
+	Long:  `gobrute is a cli tool for a fast brute forcing attack.`,
+}
+
+func init() {
+	rootCmd.AddCommand(DecryptCmd)
 }
 
 func Execute() {
@@ -17,8 +20,4 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
-}
-
-func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

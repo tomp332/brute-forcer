@@ -2,18 +2,12 @@ package internalTypes
 
 type Plugin struct {
 	Name string
+	Mode int16
 }
 
 type PluginBase interface{}
 
-type EncryptionPlugin interface {
-	Encrypt(data string) (string, error)
-	Decrypt(data string) (string, error)
-	PluginBase
-}
-
-type EncodingPlugin interface {
-	Encode(data string) (string, error)
-	Decode(data string) (string, error)
+type GoBrutePlugin interface {
+	Execute(data string) (string, error)
 	PluginBase
 }

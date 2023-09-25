@@ -15,11 +15,6 @@ var Base64PluginObj = &Base64Plugin{
 	},
 }
 
-func (p Base64Plugin) Encode(data string) (string, error) {
+func (p Base64Plugin) Execute(data string) (string, error) {
 	return base64.StdEncoding.EncodeToString([]byte(data)), nil
-}
-
-func (p Base64Plugin) Decode(data string) (string, error) {
-	sDec, _ := base64.StdEncoding.DecodeString(data)
-	return string(sDec), nil
 }

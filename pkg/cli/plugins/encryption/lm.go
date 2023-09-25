@@ -14,10 +14,11 @@ type LmPlugin struct {
 var LmPluginObj = &LmPlugin{
 	internalTypes.Plugin{
 		Name: "LM",
+		Mode: 200,
 	},
 }
 
-func (p LmPlugin) Encrypt(data string) (string, error) {
+func (p LmPlugin) Execute(data string) (string, error) {
 	upperData := strings.ToUpper(data)
 	// Pad up to 14 bytes
 	if len(upperData) < 14 {
@@ -45,8 +46,4 @@ func (p LmPlugin) Encrypt(data string) (string, error) {
 	key2.Encrypt(hash2, []byte("KGS!@#$%"))
 	// Concatenate the two cipher values to produce a 16-byte cipher value.
 	return utils.ToString(append(hash1, hash2...)), nil
-}
-
-func (p LmPlugin) Decrypt(data string) (string, error) {
-	return "", nil
 }
