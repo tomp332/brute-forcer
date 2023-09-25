@@ -1,7 +1,7 @@
 package main
 
-import "log"
+import "github.com/tomp332/gobrute/cmd/cli/commands"
 
 func main() {
-	log.Printf("Main CLI")
+	commands.Execute()
 }
