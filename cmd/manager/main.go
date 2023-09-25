@@ -2,8 +2,8 @@ package main
 
 import (
 	_ "github.com/tomp332/gobrute/docs"
-	"github.com/tomp332/gobrute/pkg"
-	"github.com/tomp332/gobrute/pkg/api"
+	"github.com/tomp332/gobrute/pkg/manager"
+	"github.com/tomp332/gobrute/pkg/manager/api"
 )
 
 // @title Brute Forcer API
@@ -12,7 +12,7 @@ import (
 // @BasePath /api/v1
 func main() {
 	// Echo instance
-	pkg.LoadSettings()
-	pkg.InitDB()
+	manager.LoadManagerSettings()
+	manager.InitManagerDB()
 	api.InitServer()
 }

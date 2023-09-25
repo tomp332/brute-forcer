@@ -8,7 +8,7 @@ type PluginBase interface{}
 
 type EncryptionPlugin interface {
 	Encrypt(data string) (string, error)
-	Decrypt(data string) (string string)
+	Decrypt(data string) (string, error)
 	PluginBase
 }
 
