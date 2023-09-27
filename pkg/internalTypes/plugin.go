@@ -8,6 +8,6 @@ type Plugin struct {
 type PluginBase interface{}
 
 type GoBrutePlugin interface {
-	Execute(data string) (string, error)
+	Execute(t *Task) (string, error)
 	PluginBase
 }

@@ -3,7 +3,9 @@ package commands
 import (
 	"errors"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"github.com/tomp332/gobrute/pkg/cli/plugins"
+	"github.com/tomp332/gobrute/pkg/internalTypes"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -12,7 +14,7 @@ import (
 var decryptionMode int16
 var wordlistPath string
 var wordlistSlice *[]string
-
+var verboseFlag bool
 var DecryptCmd = &cobra.Command{
 	Use:     "decrypt",
 	Short:   "Decrypt a hash",
@@ -26,21 +28,37 @@ var DecryptCmd = &cobra.Command{
 		if decryptionMode == 0 {
 			return errors.New("the decryption mode flag is required")
 		}
-		decrypt, err := plugins.GoBrutePlugins[decryptionMode].Execute(args[0])
+		task := &internalTypes.Task{
+			Hash:         args[0],
+			Mode:         decryptionMode,
+			WordlistPath: wordlistPath,
+		}
+		encryptedHash, err := plugins.DecryptWrapper(task)
 		if err != nil {
 			return err
 		}
-		fmt.Printf("Decrypted hash: %s for mode: %d\n", decrypt, decryptionMode)
+		if len(encryptedHash) != 0 {
+			fmt.Printf("[+] Operation successfull\n"+
+				"\tMode: %d\n"+
+				"\tHash:%s\n"+
+				"\tDecryption/Decoding:%s\n", task.Mode, task.Hash, task.PlaintText)
+		}
 		return nil
 	},
 }
 
 func init() {
+	DecryptCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", true, "gobrute [options] -v")
 	DecryptCmd.Flags().Int16VarP(&decryptionMode, "mode", "m", 0, "-m [mode]")
 	DecryptCmd.Flags().StringVarP(&wordlistPath, "wordlist", "w", "", "-w [wordlist full file path]")
 	wordlistSlice = DecryptCmd.Flags().StringSliceP("wordlist-array", "l", []string{}, "-l [a,b,c...]")
 	DecryptCmd.MarkFlagsMutuallyExclusive("wordlist", "wordlist-array")
 	_ = DecryptCmd.MarkFlagRequired("mode")
+	if verboseFlag {
+		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
+	}
 }
 
 func validateWordlistFlags() error {
