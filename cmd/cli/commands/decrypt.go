@@ -2,13 +2,11 @@ package commands
 
 import (
 	"errors"
-	"fmt"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
 	"github.com/tomp332/gobrute/pkg/cli/plugins"
 	"github.com/tomp332/gobrute/pkg/internalTypes"
 	"os"
-
-	"github.com/spf13/cobra"
 )
 
 var decryptionMode int16
@@ -38,10 +36,7 @@ var DecryptCmd = &cobra.Command{
 			return err
 		}
 		if len(encryptedHash) != 0 {
-			fmt.Printf("[+] Operation successfull\n"+
-				"\tMode: %d\n"+
-				"\tHash:%s\n"+
-				"\tDecryption/Decoding:%s\n", task.Mode, task.Hash, task.PlaintText)
+			log.WithFields(log.Fields{"mode": task.Mode, "hash": task.Hash, "password": task.PlaintText}).Info("Operation successful")
 		}
 		return nil
 	},
