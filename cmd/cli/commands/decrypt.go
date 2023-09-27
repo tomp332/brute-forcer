@@ -1,18 +1,24 @@
 package commands
 
 import (
+	"bufio"
 	"errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/tomp332/gobrute/pkg/cli/plugins"
 	"github.com/tomp332/gobrute/pkg/internalTypes"
 	"os"
+	"sync"
+	"time"
 )
 
-var decryptionMode int16
-var wordlistPath string
-var wordlistSlice *[]string
-var verboseFlag bool
+var (
+	numWorkers     int
+	decryptionMode int16
+	verboseFlag    bool
+	wordlistSlice  *[]string
+	wordlistPath   string
+)
 var DecryptCmd = &cobra.Command{
 	Use:     "decrypt",
 	Short:   "Decrypt a hash",
@@ -31,32 +37,106 @@ var DecryptCmd = &cobra.Command{
 			Mode:         decryptionMode,
 			WordlistPath: wordlistPath,
 		}
-		encryptedHash, err := plugins.DecryptWrapper(task)
+		err := DecryptWrapper(task)
 		if err != nil {
 			return err
-		}
-		if len(encryptedHash) != 0 {
-			log.WithFields(log.Fields{"mode": task.Mode, "hash": task.Hash, "password": task.PlaintText}).Info("Operation successful")
 		}
 		return nil
 	},
 }
 
+func DecryptWrapper(t *internalTypes.Task) error {
+	file, err := os.Open(t.WordlistPath)
+	startTime := time.Now()
+	if err != nil {
+		log.Fatal("Error opening file:", err)
+	}
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.Fatal("Error closing file:", err)
+		}
+	}(file)
+
+	// Create channels for passing lines to be encrypted and receiving results
+	inputChannel := make(chan string)
+	outputChannel := make(chan *internalTypes.PluginResult)
+	done := make(chan struct{})
+	var wg sync.WaitGroup
+
+	// Start worker goroutines
+	currentPlugin := plugins.GetPlugin(t.Mode)
+	for i := 0; i < numWorkers; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for line := range inputChannel {
+				result := &internalTypes.PluginResult{
+					Password: line,
+				}
+				log.WithFields(log.Fields{"target": t.Hash, "password": line}).Debug("Executing decryption for password")
+				err := currentPlugin.Execute(result)
+				if err != nil {
+					log.WithFields(log.Fields{"password": line}).Error("Failed to execute function on password")
+					continue
+				}
+				outputChannel <- result
+			}
+		}()
+	}
+
+	// Read the file line by line and send lines to be decrypted
+	go func() {
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			line := scanner.Text()
+			inputChannel <- line
+			select {
+			case <-done:
+				// If any worker succeeded, stop sending lines
+				break
+			default:
+			}
+		}
+		close(inputChannel)
+	}()
+
+	// Close the output channel when all workers are done
+	go func() {
+		wg.Wait()
+		close(outputChannel)
+	}()
+
+	// Process the decrypted lines received from the output channel
+	for hashResult := range outputChannel {
+		if hashResult.Hash == t.Hash {
+			elapsed := time.Since(startTime)
+			t.PlaintText = hashResult.Password
+			log.WithFields(log.Fields{"elapsedTime": elapsed, "mode": t.Mode, "hash": t.Hash, "password": t.PlaintText}).Info("Operation successful")
+			return nil
+		}
+	}
+	elapsed := time.Since(startTime)
+	log.WithFields(log.Fields{"elapsedTime": elapsed, "mode": t.Mode, "hash": t.Hash}).Error("Operation failed, could not find a proper password to decrypt given hash.")
+	return nil
+}
+
 func init() {
-	DecryptCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", true, "gobrute [options] -v")
+	DecryptCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", false, "gobrute [options] -v")
 	DecryptCmd.Flags().Int16VarP(&decryptionMode, "mode", "m", 0, "-m [mode]")
-	DecryptCmd.Flags().StringVarP(&wordlistPath, "wordlist", "w", "", "-w [wordlist full file path]")
+	DecryptCmd.Flags().StringVarP(&wordlistPath, "wordlist-file", "f", "", "-w [wordlist full file path]")
+	DecryptCmd.Flags().IntVarP(&numWorkers, "workers", "w", 1, "-w [num of workers]")
 	wordlistSlice = DecryptCmd.Flags().StringSliceP("wordlist-array", "l", []string{}, "-l [a,b,c...]")
-	DecryptCmd.MarkFlagsMutuallyExclusive("wordlist", "wordlist-array")
+	DecryptCmd.MarkFlagsMutuallyExclusive("wordlist-file", "wordlist-array")
 	_ = DecryptCmd.MarkFlagRequired("mode")
+}
+
+func validateWordlistFlags() error {
 	if verboseFlag {
 		log.SetLevel(log.DebugLevel)
 	} else {
 		log.SetLevel(log.InfoLevel)
 	}
-}
-
-func validateWordlistFlags() error {
 	//Validate that at least one of the wordlist flags is used
 	if wordlistPath == "" && len(*wordlistSlice) == 0 {
 		return errors.New("one of the wordlist flags must be used")

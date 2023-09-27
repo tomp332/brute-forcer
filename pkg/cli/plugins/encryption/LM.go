@@ -19,8 +19,8 @@ var LmPluginObj = &LmPlugin{
 	},
 }
 
-func (p LmPlugin) Execute(t *internalTypes.Task) (string, error) {
-	upperData := strings.ToUpper(t.PlaintText)
+func (p LmPlugin) Execute(result *internalTypes.PluginResult) error {
+	upperData := strings.ToUpper(result.Password)
 	// Pad up to 14 bytes
 	if len(upperData) < 14 {
 		upperData += strings.Repeat("\x00", 14-len(upperData))
@@ -46,5 +46,6 @@ func (p LmPlugin) Execute(t *internalTypes.Task) (string, error) {
 	key1.Encrypt(hash1, []byte("KGS!@#$%"))
 	key2.Encrypt(hash2, []byte("KGS!@#$%"))
 	// Concatenate the two cipher values to produce a 16-byte cipher value.
-	return utils.ToString(append(hash1, hash2...)), nil
+	result.Hash = utils.ToString(append(hash1, hash2...))
+	return nil
 }

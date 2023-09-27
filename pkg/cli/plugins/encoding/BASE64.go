@@ -16,6 +16,7 @@ var Base64PluginObj = &Base64Plugin{
 	},
 }
 
-func (p Base64Plugin) Execute(t *internalTypes.Task) (string, error) {
-	return base64.StdEncoding.EncodeToString([]byte(t.PlaintText)), nil
+func (p Base64Plugin) Execute(password *string, result *string) error {
+	*result = base64.StdEncoding.EncodeToString([]byte(*password))
+	return nil
 }
