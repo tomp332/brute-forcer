@@ -8,22 +8,22 @@ type Task struct {
 }
 
 type EncryptionTask struct {
-	Hash     string
-	Password string
+	ResultHash     string
+	TargetPassword string
 	Task
 }
 
-type TaskResult struct {
-	Password string
-	Hash     string
+type EncryptionTaskResult struct {
+	TargetPassword string
+	EncryptedHash  string
 	Task
 }
 
 type DecryptionTask struct {
-	Hash         string
-	Mode         int16
-	WordlistPath string
-	Password     string
-	NumAttempts  int
+	TargetHash     string
+	Mode           int16
+	WordlistPath   string
+	ResultPassword string
+	NumAttempts    int
 	Task
 }

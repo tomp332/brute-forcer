@@ -1,7 +1,7 @@
 package crud
 
 import (
-	"github.com/tomp332/gobrute/pkg/cli/plugins"
+	"github.com/tomp332/gobrute/pkg/client/plugins"
 	"github.com/tomp332/gobrute/pkg/internalTypes"
 	"github.com/tomp332/gobrute/pkg/manager"
 	utils2 "github.com/tomp332/gobrute/pkg/manager/utils"
@@ -59,7 +59,7 @@ func ExecuteBrute(bruteForceTasks []internalTypes.IBruteForceCreate) (string, er
 			bruteTask := bruteTask
 			go func() {
 				decoded, err := obj.Decode(bruteTask.Hash)
-				log.Printf("Hash: %s, Decoding: %s", bruteTask.Hash, decoded)
+				log.Printf("TargetHash: %s, Decoding: %s", bruteTask.Hash, decoded)
 				if err != nil {
 					log.Printf("Error decoding hash: %s. Error: %s", bruteTask.Hash, err)
 				} else {

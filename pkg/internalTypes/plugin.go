@@ -8,6 +8,6 @@ type Plugin struct {
 type PluginBase interface{}
 
 type GoBrutePlugin interface {
-	Execute(result *TaskResult) error
+	Execute(result *EncryptionTaskResult) error
 	PluginBase
 }
