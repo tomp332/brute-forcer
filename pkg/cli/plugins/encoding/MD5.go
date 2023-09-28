@@ -17,10 +17,10 @@ var Md5PluginObj = &Md5Plugin{
 	},
 }
 
-func (p Md5Plugin) Execute(password *string, result *string) error {
+func (p Md5Plugin) Execute(result *internalTypes.PluginResult) error {
 	hasher := md5.New()
-	hasher.Write([]byte(*password))
-	*result = hex.EncodeToString(hasher.Sum(nil))
+	hasher.Write([]byte(result.Password))
+	result.Hash = hex.EncodeToString(hasher.Sum(nil))
 	return nil
 
 }

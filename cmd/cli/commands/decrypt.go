@@ -5,19 +5,21 @@ import (
 	"errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+	"github.com/tomp332/gobrute/pkg/cli"
 	"github.com/tomp332/gobrute/pkg/cli/plugins"
 	"github.com/tomp332/gobrute/pkg/internalTypes"
+	"io"
 	"os"
-	"sync"
 	"time"
 )
 
 var (
-	numWorkers     int
-	decryptionMode int16
-	verboseFlag    bool
-	wordlistSlice  *[]string
-	wordlistPath   string
+	numWorkers       int
+	decryptionMode   int16
+	verboseFlag      bool
+	wordlistSlice    *[]string
+	wordlistPath     string
+	passwordAttempts int
 )
 var DecryptCmd = &cobra.Command{
 	Use:     "decrypt",
@@ -57,76 +59,70 @@ func DecryptWrapper(t *internalTypes.Task) error {
 			log.Fatal("Error closing file:", err)
 		}
 	}(file)
-
-	// Create channels for passing lines to be encrypted and receiving results
-	inputChannel := make(chan string)
-	outputChannel := make(chan *internalTypes.PluginResult)
-	done := make(chan struct{})
-	var wg sync.WaitGroup
-
-	// Start worker goroutines
 	currentPlugin := plugins.GetPlugin(t.Mode)
+
+	// Channels
+	encryptJobChannel := make(chan internalTypes.PluginResult)
+	readFileChannel := make(chan string)
+	resultChannel := make(chan internalTypes.PluginResult)
+	done := make(chan struct{}) // flag for decryption success
+
+	go readFile(readFileChannel, file, done)
 	for i := 0; i < numWorkers; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for line := range inputChannel {
-				result := &internalTypes.PluginResult{
-					Password: line,
-				}
-				log.WithFields(log.Fields{"target": t.Hash, "password": line}).Debug("Executing decryption for password")
-				err := currentPlugin.Execute(result)
-				if err != nil {
-					log.WithFields(log.Fields{"password": line}).Error("Failed to execute function on password")
-					continue
-				}
-				outputChannel <- result
-			}
-		}()
+		go cli.EncryptionWorker(encryptJobChannel, currentPlugin, resultChannel)
 	}
+	go lineReadCallback(readFileChannel, encryptJobChannel)
 
-	// Read the file line by line and send lines to be decrypted
-	go func() {
-		scanner := bufio.NewScanner(file)
-		for scanner.Scan() {
-			line := scanner.Text()
-			inputChannel <- line
-			select {
-			case <-done:
-				// If any worker succeeded, stop sending lines
-				break
-			default:
-			}
-		}
-		close(inputChannel)
-	}()
+	return resultsChannelCallback(resultChannel, t, startTime)
+}
 
-	// Close the output channel when all workers are done
-	go func() {
-		wg.Wait()
-		close(outputChannel)
-	}()
-
+func resultsChannelCallback(resultsChannel chan internalTypes.PluginResult, task *internalTypes.Task, startTime time.Time) error {
 	// Process the decrypted lines received from the output channel
-	for hashResult := range outputChannel {
-		if hashResult.Hash == t.Hash {
+	for hashResult := range resultsChannel {
+		if hashResult.Hash == task.Hash {
 			elapsed := time.Since(startTime)
-			t.PlaintText = hashResult.Password
-			log.WithFields(log.Fields{"elapsedTime": elapsed, "mode": t.Mode, "hash": t.Hash, "password": t.PlaintText}).Info("Operation successful")
+			task.PlaintText = hashResult.Password
+			log.WithFields(log.Fields{"passwordAttempts": passwordAttempts, "elapsedTime": elapsed, "mode": task.Mode,
+				"hash": task.Hash, "password": task.PlaintText}).Info("Operation successful")
 			return nil
 		}
 	}
 	elapsed := time.Since(startTime)
-	log.WithFields(log.Fields{"elapsedTime": elapsed, "mode": t.Mode, "hash": t.Hash}).Error("Operation failed, could not find a proper password to decrypt given hash.")
+	log.WithFields(log.Fields{"elapsedTime": elapsed, "passwordAttempts": passwordAttempts, "mode": task.Mode,
+		"hash": task.Hash}).Error("Operation failed, could not find a proper password to decrypt given hash.")
 	return nil
+}
+
+func lineReadCallback(inputChannel chan string, outputChannel chan internalTypes.PluginResult) {
+	for password := range inputChannel {
+		outputChannel <- internalTypes.PluginResult{
+			Password: password,
+		}
+	}
+}
+
+func readFile(inputChannel chan string, file io.Reader, triggerChannel chan struct{}) {
+	defer close(inputChannel)
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		inputChannel <- line
+		select {
+		case <-triggerChannel:
+			break
+		default:
+		}
+	}
 }
 
 func init() {
 	DecryptCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", false, "gobrute [options] -v")
 	DecryptCmd.Flags().Int16VarP(&decryptionMode, "mode", "m", 0, "-m [mode]")
-	DecryptCmd.Flags().StringVarP(&wordlistPath, "wordlist-file", "f", "", "-w [wordlist full file path]")
+	DecryptCmd.Flags().StringVarP(&wordlistPath, "wordlist-file", "f", "",
+		"-w [wordlist full file path]")
 	DecryptCmd.Flags().IntVarP(&numWorkers, "workers", "w", 1, "-w [num of workers]")
-	wordlistSlice = DecryptCmd.Flags().StringSliceP("wordlist-array", "l", []string{}, "-l [a,b,c...]")
+	wordlistSlice = DecryptCmd.Flags().StringSliceP("wordlist-array", "l", []string{},
+		"-l [a,b,c...]")
 	DecryptCmd.MarkFlagsMutuallyExclusive("wordlist-file", "wordlist-array")
 	_ = DecryptCmd.MarkFlagRequired("mode")
 }
