@@ -14,12 +14,11 @@ import (
 )
 
 var (
-	numWorkers       int
-	decryptionMode   int16
-	verboseFlag      bool
-	wordlistSlice    *[]string
-	wordlistPath     string
-	passwordAttempts int
+	numWorkers     int
+	decryptionMode int16
+	verboseFlag    bool
+	wordlistSlice  *[]string
+	wordlistPath   string
 )
 var DecryptCmd = &cobra.Command{
 	Use:     "decrypt",
@@ -34,12 +33,16 @@ var DecryptCmd = &cobra.Command{
 		if decryptionMode == 0 {
 			return errors.New("the decryption mode flag is required")
 		}
-		task := &internalTypes.Task{
+		decryptionTask := &internalTypes.DecryptionTask{
 			Hash:         args[0],
 			Mode:         decryptionMode,
 			WordlistPath: wordlistPath,
+			NumAttempts:  0,
+			Task: internalTypes.Task{
+				StartTime: time.Now(),
+			},
 		}
-		err := DecryptWrapper(task)
+		err := DecryptWrapper(decryptionTask)
 		if err != nil {
 			return err
 		}
@@ -47,9 +50,8 @@ var DecryptCmd = &cobra.Command{
 	},
 }
 
-func DecryptWrapper(t *internalTypes.Task) error {
-	file, err := os.Open(t.WordlistPath)
-	startTime := time.Now()
+func DecryptWrapper(decryptionTask *internalTypes.DecryptionTask) error {
+	file, err := os.Open(decryptionTask.WordlistPath)
 	if err != nil {
 		log.Fatal("Error opening file:", err)
 	}
@@ -59,56 +61,58 @@ func DecryptWrapper(t *internalTypes.Task) error {
 			log.Fatal("Error closing file:", err)
 		}
 	}(file)
-	currentPlugin := plugins.GetPlugin(t.Mode)
+	currentPlugin := plugins.GetPlugin(decryptionTask.Mode)
 
 	// Channels
-	encryptJobChannel := make(chan internalTypes.PluginResult)
-	readFileChannel := make(chan string)
-	resultChannel := make(chan internalTypes.PluginResult)
-	done := make(chan struct{}) // flag for decryption success
+	encryptJobChannel := make(chan internalTypes.EncryptionTask)
+	wordlistChannel := make(chan string)
+	encResultChannel := make(chan internalTypes.TaskResult)
+	notifyChannel := make(chan struct{}) // flag for decryption success
 
-	go readFile(readFileChannel, file, done)
+	go readWordlist(wordlistChannel, file, notifyChannel)
 	for i := 0; i < numWorkers; i++ {
-		go cli.EncryptionWorker(encryptJobChannel, currentPlugin, resultChannel)
+		go cli.EncryptionWorker(currentPlugin, encryptJobChannel, encResultChannel)
 	}
-	go lineReadCallback(readFileChannel, encryptJobChannel)
+	go handleWordReadCallback(decryptionTask, wordlistChannel, encryptJobChannel)
 
-	return resultsChannelCallback(resultChannel, t, startTime)
+	return resultsChannelCallback(encResultChannel, decryptionTask)
 }
 
-func resultsChannelCallback(resultsChannel chan internalTypes.PluginResult, task *internalTypes.Task, startTime time.Time) error {
+func resultsChannelCallback(resultsChannel chan internalTypes.TaskResult, decryptionTask *internalTypes.DecryptionTask) error {
 	// Process the decrypted lines received from the output channel
 	for hashResult := range resultsChannel {
-		if hashResult.Hash == task.Hash {
-			elapsed := time.Since(startTime)
-			task.PlaintText = hashResult.Password
-			log.WithFields(log.Fields{"passwordAttempts": passwordAttempts, "elapsedTime": elapsed, "mode": task.Mode,
-				"hash": task.Hash, "password": task.PlaintText}).Info("Operation successful")
+		if hashResult.Hash == decryptionTask.Hash {
+			decryptionTask.EndTime = time.Since(decryptionTask.StartTime)
+			decryptionTask.Password = hashResult.Password
+			log.WithFields(log.Fields{"passwordAttempts": decryptionTask.NumAttempts, "elapsedTime": decryptionTask.EndTime.Seconds(), "mode": decryptionTask.Mode,
+				"hash": decryptionTask.Hash, "password": decryptionTask.Password}).Info("Operation successful")
 			return nil
 		}
 	}
-	elapsed := time.Since(startTime)
-	log.WithFields(log.Fields{"elapsedTime": elapsed, "passwordAttempts": passwordAttempts, "mode": task.Mode,
-		"hash": task.Hash}).Error("Operation failed, could not find a proper password to decrypt given hash.")
+	decryptionTask.EndTime = time.Since(decryptionTask.StartTime)
+	log.WithFields(log.Fields{"elapsedTime": decryptionTask.EndTime.Seconds(), "passwordAttempts": decryptionTask.NumAttempts, "mode": decryptionTask.Mode,
+		"hash": decryptionTask.Hash}).Error("Operation failed, could not find a proper password to decrypt given hash.")
 	return nil
 }
 
-func lineReadCallback(inputChannel chan string, outputChannel chan internalTypes.PluginResult) {
+func handleWordReadCallback(decryptionTask *internalTypes.DecryptionTask, inputChannel chan string, outputChannel chan internalTypes.EncryptionTask) {
 	for password := range inputChannel {
-		outputChannel <- internalTypes.PluginResult{
+		decryptionTask.NumAttempts++ // Increment the number of attempts
+		outputChannel <- internalTypes.EncryptionTask{
 			Password: password,
+			Hash:     decryptionTask.Hash,
 		}
 	}
 }
 
-func readFile(inputChannel chan string, file io.Reader, triggerChannel chan struct{}) {
+func readWordlist(inputChannel chan string, file io.Reader, notifyChannel chan struct{}) {
 	defer close(inputChannel)
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
 		inputChannel <- line
 		select {
-		case <-triggerChannel:
+		case <-notifyChannel:
 			break
 		default:
 		}

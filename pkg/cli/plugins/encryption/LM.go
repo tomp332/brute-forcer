@@ -19,7 +19,7 @@ var LmPluginObj = &LmPlugin{
 	},
 }
 
-func (p LmPlugin) Execute(result *internalTypes.PluginResult) error {
+func (p LmPlugin) Execute(result *internalTypes.TaskResult) error {
 	upperData := strings.ToUpper(result.Password)
 	// Pad up to 14 bytes
 	if len(upperData) < 14 {

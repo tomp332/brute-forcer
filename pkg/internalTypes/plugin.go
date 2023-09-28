@@ -5,14 +5,9 @@ type Plugin struct {
 	Mode int16
 }
 
-type PluginResult struct {
-	Password string
-	Hash     string
-}
-
 type PluginBase interface{}
 
 type GoBrutePlugin interface {
-	Execute(result *PluginResult) error
+	Execute(result *TaskResult) error
 	PluginBase
 }

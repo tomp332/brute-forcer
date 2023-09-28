@@ -5,18 +5,18 @@ import (
 	"github.com/tomp332/gobrute/pkg/internalTypes"
 )
 
-func EncryptionWorker(encryptionTasks <-chan internalTypes.PluginResult, plugin internalTypes.GoBrutePlugin, results chan<- internalTypes.PluginResult) {
-	for task := range encryptionTasks {
-		log.WithFields(log.Fields{"password": task.Password}).Debug("Started evaluating password..")
-		result := internalTypes.PluginResult{
-			Password: task.Password,
+func EncryptionWorker(plugin internalTypes.GoBrutePlugin, encryptionTasks <-chan internalTypes.EncryptionTask, results chan<- internalTypes.TaskResult) {
+	for encryptionTask := range encryptionTasks {
+		log.WithFields(log.Fields{"password": encryptionTask.Password, "hash": encryptionTask.Hash}).Debug("Started evaluating password on worker")
+		result := internalTypes.TaskResult{
+			Password: encryptionTask.Password,
 		}
 		err := plugin.Execute(&result)
 		if err != nil {
-			log.WithFields(log.Fields{"password": task.Password}).Error("Failed to evaluate password")
+			log.WithFields(log.Fields{"password": encryptionTask.Password}).Error("Failed to evaluate password")
 			continue
 		}
-		log.WithFields(log.Fields{"password": task.Password}).Debug("Finished evaluating password..")
+		log.WithFields(log.Fields{"password": encryptionTask.Password, "hash": encryptionTask.Hash}).Debug("Finished evaluating password on worker")
 		results <- result
 	}
 }
