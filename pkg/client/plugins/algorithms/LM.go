@@ -1,4 +1,4 @@
-package encryption
+package algorithms
 
 import (
 	"crypto/des"
