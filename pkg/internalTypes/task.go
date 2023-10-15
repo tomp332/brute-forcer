@@ -13,9 +13,15 @@ type EncryptionTask struct {
 	Task
 }
 
+type MetaData struct {
+	Size        int
+	TextMessage string
+}
+
 type EncryptionTaskResult struct {
 	TargetPassword string
 	EncryptedHash  string
+	MetaData
 	Task
 }
 
@@ -25,5 +31,6 @@ type DecryptionTask struct {
 	WordlistPath   string
 	ResultPassword string
 	NumAttempts    int
+	MetaData
 	Task
 }

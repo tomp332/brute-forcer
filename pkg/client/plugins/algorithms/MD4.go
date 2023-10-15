@@ -1,4 +1,4 @@
-package encoding
+package algorithms
 
 import (
 	"github.com/tomp332/gobrute/pkg/internalTypes"

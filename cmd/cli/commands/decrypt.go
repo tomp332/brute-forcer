@@ -38,6 +38,10 @@ var DecryptCmd = &cobra.Command{
 			Task: internalTypes.Task{
 				StartTime: time.Now(),
 			},
+			MetaData: internalTypes.MetaData{
+				Size:        0,
+				TextMessage: "",
+			},
 		}
 		err := client.DecryptWrapper(decryptionTask, numWorkers)
 		if err != nil {
@@ -57,6 +61,7 @@ func init() {
 		"-l [a,b,c...]")
 	DecryptCmd.MarkFlagsMutuallyExclusive("wordlist-file", "wordlist-array")
 	_ = DecryptCmd.MarkFlagRequired("mode")
+
 }
 
 func validateWordlistFlags() error {
