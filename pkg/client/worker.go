@@ -8,6 +8,7 @@ import (
 func EncryptionWorker(plugin internalTypes.GoBrutePlugin, encryptionTasks <-chan internalTypes.EncryptionTask, results chan<- internalTypes.EncryptionTaskResult) {
 	for encryptionTask := range encryptionTasks {
 		log.WithFields(log.Fields{"password": encryptionTask.TargetPassword, "targetHash": encryptionTask.ResultHash}).Debug("Started evaluating password on worker")
+		// TODO: Parse CLI arguments and fill this struct
 		result := internalTypes.EncryptionTaskResult{
 			TargetPassword: encryptionTask.TargetPassword,
 		}

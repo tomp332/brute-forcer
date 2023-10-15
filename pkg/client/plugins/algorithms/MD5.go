@@ -1,4 +1,4 @@
-package encoding
+package algorithms
 
 import (
 	"crypto/md5"
